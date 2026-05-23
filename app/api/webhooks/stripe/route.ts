@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       if (!listingId || !planTier) break
 
       await supabase
-        .from('listings')
+        .from('ibclc_listings')
         .update({
           plan_tier: planTier,
           stripe_customer_id: session.customer as string,
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         })
         .eq('id', listingId)
 
-      await supabase.from('payments').insert({
+      await supabase.from('ibclc_payments').insert({
         listing_id: listingId,
         stripe_payment_intent_id: session.payment_intent as string,
         stripe_subscription_id: session.subscription as string,
@@ -65,12 +65,12 @@ export async function POST(request: NextRequest) {
       if (!listingId) break
 
       await supabase
-        .from('listings')
+        .from('ibclc_listings')
         .update({ plan_tier: 'free', plan_expires_at: null })
         .eq('id', listingId)
 
       await supabase
-        .from('payments')
+        .from('ibclc_payments')
         .update({ status: 'canceled' })
         .eq('stripe_subscription_id', subscription.id)
       break
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
 
       if (subscriptionId) {
         await supabase
-          .from('payments')
+          .from('ibclc_payments')
           .update({ status: 'past_due' })
           .eq('stripe_subscription_id', subscriptionId)
       }

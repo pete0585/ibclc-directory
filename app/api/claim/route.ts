@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createServiceClient()
 
     const { data: listing, error: listingError } = await supabase
-      .from('listings')
+      .from('ibclc_listings')
       .select('id, name, email, claimed')
       .eq('id', listingId)
       .single()
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     const token = crypto.randomBytes(32).toString('hex')
     const expiresAt = new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString()
 
-    const { error: claimError } = await supabase.from('claims').insert({
+    const { error: claimError } = await supabase.from('ibclc_claims').insert({
       listing_id: listingId,
       email,
       token,

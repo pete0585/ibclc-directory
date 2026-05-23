@@ -11,12 +11,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [listingsRes, citiesRes] = await Promise.all([
     supabase
-      .from('listings')
+      .from('ibclc_listings')
       .select('slug, updated_at')
       .eq('status', 'active')
       .order('updated_at', { ascending: false }),
     supabase
-      .from('cities')
+      .from('ibclc_cities')
       .select('slug, state, updated_at')
       .eq('active', true)
       .gt('listing_count', 0),

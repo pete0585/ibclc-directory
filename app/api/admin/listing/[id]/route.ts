@@ -28,7 +28,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 
   const serviceClient = await createServiceClient()
   const { error } = await serviceClient
-    .from('listings')
+    .from('ibclc_listings')
     .update({ status })
     .eq('id', id)
 

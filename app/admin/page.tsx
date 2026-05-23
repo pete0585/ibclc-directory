@@ -16,10 +16,10 @@ export default async function AdminPage({ searchParams }: Props) {
   const supabase = await createServiceClient()
 
   const [pendingRes, activeRes, paidRes, totalRes] = await Promise.all([
-    supabase.from('listings').select('*').eq('status', 'pending').order('created_at', { ascending: false }),
-    supabase.from('listings').select('*').eq('status', 'active').order('created_at', { ascending: false }).limit(50),
-    supabase.from('listings').select('id', { count: 'exact' }).in('plan_tier', ['pro', 'verified']),
-    supabase.from('listings').select('id', { count: 'exact' }),
+    supabase.from('ibclc_listings').select('*').eq('status', 'pending').order('created_at', { ascending: false }),
+    supabase.from('ibclc_listings').select('*').eq('status', 'active').order('created_at', { ascending: false }).limit(50),
+    supabase.from('ibclc_listings').select('id', { count: 'exact' }).in('plan_tier', ['pro', 'verified']),
+    supabase.from('ibclc_listings').select('id', { count: 'exact' }),
   ])
 
   const stats = [

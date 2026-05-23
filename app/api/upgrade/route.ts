@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createServiceClient()
 
     const { data: listing, error } = await supabase
-      .from('listings')
+      .from('ibclc_listings')
       .select('id, name, email, claimed')
       .eq('id', listingId)
       .single()

@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     while (true) {
       const { data: existing } = await supabase
-        .from('listings')
+        .from('ibclc_listings')
         .select('id')
         .eq('slug', slug)
         .maybeSingle()
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       ? data.languages.split(',').map((l) => l.trim()).filter(Boolean)
       : []
 
-    const { error } = await supabase.from('listings').insert({
+    const { error } = await supabase.from('ibclc_listings').insert({
       slug,
       name: data.name,
       credentials: credentialsArray,

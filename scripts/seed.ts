@@ -262,7 +262,7 @@ async function seed() {
 
   for (let i = 0; i < listings.length; i += batchSize) {
     const batch = listings.slice(i, i + batchSize)
-    const { error } = await supabase.from('listings').upsert(batch, { onConflict: 'slug' })
+    const { error } = await supabase.from('ibclc_listings').upsert(batch, { onConflict: 'slug' })
 
     if (error) {
       console.error('Batch error:', error)
@@ -277,13 +277,13 @@ async function seed() {
   for (const city of TOP_CITIES) {
     const citySlug = `${slugify(city.city)}-${city.state.toLowerCase()}`
     const { count } = await supabase
-      .from('listings')
+      .from('ibclc_listings')
       .select('id', { count: 'exact', head: true })
       .eq('city', city.city)
       .eq('state', city.state)
       .eq('status', 'active')
 
-    await supabase.from('cities').upsert({
+    await supabase.from('ibclc_cities').upsert({
       city: city.city,
       state: city.state,
       slug: citySlug,

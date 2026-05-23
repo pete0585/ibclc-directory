@@ -4,7 +4,7 @@ import type { Listing, City } from '@/types'
 export async function getListingBySlug(slug: string): Promise<Listing | null> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('listings')
+    .from('ibclc_listings')
     .select('*')
     .eq('slug', slug)
     .eq('status', 'active')
@@ -37,7 +37,7 @@ export async function getListings({
 }): Promise<{ listings: Listing[]; total: number }> {
   const supabase = await createClient()
   let query = supabase
-    .from('listings')
+    .from('ibclc_listings')
     .select('*', { count: 'exact' })
     .eq('status', 'active')
     .order('plan_tier_rank', { ascending: true })
@@ -63,7 +63,7 @@ export async function getListings({
 export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('listings')
+    .from('ibclc_listings')
     .select('*')
     .eq('status', 'active')
     .in('plan_tier', ['verified', 'pro'])
@@ -75,7 +75,7 @@ export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
 export async function getCityPage(citySlug: string): Promise<City | null> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('cities')
+    .from('ibclc_cities')
     .select('*')
     .eq('slug', citySlug)
     .eq('active', true)
@@ -86,7 +86,7 @@ export async function getCityPage(citySlug: string): Promise<City | null> {
 export async function getCitiesByState(stateAbbr: string): Promise<City[]> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('cities')
+    .from('ibclc_cities')
     .select('*')
     .ilike('state', stateAbbr)
     .eq('active', true)
@@ -98,7 +98,7 @@ export async function getCitiesByState(stateAbbr: string): Promise<City[]> {
 export async function getListingsByCity(city: string, state: string, limit = 20): Promise<Listing[]> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('listings')
+    .from('ibclc_listings')
     .select('*')
     .ilike('city', city)
     .ilike('state', state)
@@ -111,7 +111,7 @@ export async function getListingsByCity(city: string, state: string, limit = 20)
 export async function getActiveCities(limit = 150): Promise<City[]> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('cities')
+    .from('ibclc_cities')
     .select('*')
     .eq('active', true)
     .gt('listing_count', 0)
@@ -123,7 +123,7 @@ export async function getActiveCities(limit = 150): Promise<City[]> {
 export async function getActiveStates(): Promise<string[]> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('listings')
+    .from('ibclc_listings')
     .select('state')
     .eq('status', 'active')
   const states = [...new Set((data ?? []).map((r: { state: string }) => r.state))].sort()

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const supabase = await createServiceClient()
 
   const { data: claim, error } = await supabase
-    .from('claims')
+    .from('ibclc_claims')
     .select('*, listings(id, name)')
     .eq('token', token)
     .eq('verified', false)
@@ -27,11 +27,11 @@ export async function GET(request: NextRequest) {
 
   await Promise.all([
     supabase
-      .from('claims')
+      .from('ibclc_claims')
       .update({ verified: true })
       .eq('id', claim.id),
     supabase
-      .from('listings')
+      .from('ibclc_listings')
       .update({ claimed: true, claimed_at: new Date().toISOString() })
       .eq('id', claim.listing_id),
   ])

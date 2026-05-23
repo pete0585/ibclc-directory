@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 
 -- Listings table
-CREATE TABLE listings (
+CREATE TABLE ibclc_listings (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   slug text UNIQUE NOT NULL,
   name text NOT NULL,
@@ -53,9 +53,9 @@ CREATE TABLE listings (
 );
 
 -- Claims table
-CREATE TABLE claims (
+CREATE TABLE ibclc_claims (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  listing_id uuid NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+  listing_id uuid NOT NULL REFERENCES ibclc_listings(id) ON DELETE CASCADE,
   email text NOT NULL,
   token text UNIQUE NOT NULL,
   verified boolean DEFAULT false,
@@ -64,9 +64,9 @@ CREATE TABLE claims (
 );
 
 -- Payments table
-CREATE TABLE payments (
+CREATE TABLE ibclc_payments (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  listing_id uuid NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+  listing_id uuid NOT NULL REFERENCES ibclc_listings(id) ON DELETE CASCADE,
   stripe_payment_intent_id text,
   stripe_subscription_id text,
   plan_tier text NOT NULL CHECK (plan_tier IN ('pro', 'verified')),
@@ -79,7 +79,7 @@ CREATE TABLE payments (
 );
 
 -- Cities table (denormalized cache for city pages)
-CREATE TABLE cities (
+CREATE TABLE ibclc_cities (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   city text NOT NULL,
   state text NOT NULL,
@@ -94,9 +94,9 @@ CREATE TABLE cities (
 );
 
 -- Reviews table (v2 / post-launch)
-CREATE TABLE reviews (
+CREATE TABLE ibclc_reviews (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  listing_id uuid NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+  listing_id uuid NOT NULL REFERENCES ibclc_listings(id) ON DELETE CASCADE,
   reviewer_name text NOT NULL,
   rating integer NOT NULL CHECK (rating BETWEEN 1 AND 5),
   body text,
@@ -106,23 +106,23 @@ CREATE TABLE reviews (
 );
 
 -- Indexes
-CREATE INDEX idx_listings_state_city ON listings(state, city);
-CREATE INDEX idx_listings_state ON listings(state);
-CREATE INDEX idx_listings_city ON listings(city);
-CREATE INDEX idx_listings_plan_tier ON listings(plan_tier);
-CREATE INDEX idx_listings_status ON listings(status);
-CREATE INDEX idx_listings_tier_rank ON listings(plan_tier_rank, name);
-CREATE INDEX idx_listings_search ON listings USING gin(search_vector);
-CREATE INDEX idx_listings_specialties ON listings USING gin(specialties);
-CREATE INDEX idx_listings_insurance ON listings USING gin(insurance_accepted);
-CREATE INDEX idx_listings_telehealth ON listings(telehealth) WHERE telehealth = true;
-CREATE INDEX idx_listings_accepting ON listings(accepting_new_clients) WHERE accepting_new_clients = true;
-CREATE INDEX idx_listings_slug ON listings(slug);
-CREATE INDEX idx_claims_token ON claims(token);
-CREATE INDEX idx_claims_listing ON claims(listing_id);
-CREATE INDEX idx_payments_listing ON payments(listing_id);
-CREATE INDEX idx_cities_slug ON cities(slug);
-CREATE INDEX idx_cities_state ON cities(state);
+CREATE INDEX idx_listings_state_city ON ibclc_listings(state, city);
+CREATE INDEX idx_listings_state ON ibclc_listings(state);
+CREATE INDEX idx_listings_city ON ibclc_listings(city);
+CREATE INDEX idx_listings_plan_tier ON ibclc_listings(plan_tier);
+CREATE INDEX idx_listings_status ON ibclc_listings(status);
+CREATE INDEX idx_listings_tier_rank ON ibclc_listings(plan_tier_rank, name);
+CREATE INDEX idx_listings_search ON ibclc_listings USING gin(search_vector);
+CREATE INDEX idx_listings_specialties ON ibclc_listings USING gin(specialties);
+CREATE INDEX idx_listings_insurance ON ibclc_listings USING gin(insurance_accepted);
+CREATE INDEX idx_listings_telehealth ON ibclc_listings(telehealth) WHERE telehealth = true;
+CREATE INDEX idx_listings_accepting ON ibclc_listings(accepting_new_clients) WHERE accepting_new_clients = true;
+CREATE INDEX idx_listings_slug ON ibclc_listings(slug);
+CREATE INDEX idx_claims_token ON ibclc_claims(token);
+CREATE INDEX idx_claims_listing ON ibclc_claims(listing_id);
+CREATE INDEX idx_payments_listing ON ibclc_payments(listing_id);
+CREATE INDEX idx_cities_slug ON ibclc_cities(slug);
+CREATE INDEX idx_cities_state ON ibclc_cities(state);
 
 -- Updated_at trigger
 CREATE OR REPLACE FUNCTION update_updated_at()
@@ -134,7 +134,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER listings_updated_at
-  BEFORE UPDATE ON listings
+  BEFORE UPDATE ON ibclc_listings
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at();
 
@@ -152,7 +152,7 @@ BEGIN
   )
   ON CONFLICT (city, state)
   DO UPDATE SET listing_count = (
-    SELECT COUNT(*) FROM listings
+    SELECT COUNT(*) FROM ibclc_listings
     WHERE city = NEW.city AND state = NEW.state AND status = 'active'
   );
   RETURN NEW;
@@ -160,21 +160,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER listings_city_count
-  AFTER INSERT OR UPDATE ON listings
+  AFTER INSERT OR UPDATE ON ibclc_listings
   FOR EACH ROW
   WHEN (NEW.status = 'active')
   EXECUTE FUNCTION update_city_listing_count();
 
 -- Row Level Security
-ALTER TABLE listings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE claims ENABLE ROW LEVEL SECURITY;
-ALTER TABLE payments ENABLE ROW LEVEL SECURITY;
-ALTER TABLE cities ENABLE ROW LEVEL SECURITY;
-ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ibclc_listings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ibclc_claims ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ibclc_payments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ibclc_cities ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ibclc_reviews ENABLE ROW LEVEL SECURITY;
 
 -- Public can read active listings
 CREATE POLICY "Public can read active listings"
-  ON listings FOR SELECT
+  ON ibclc_listings FOR SELECT
   USING (status = 'active');
 
 -- Service role has full access (bypasses RLS)
@@ -182,10 +182,10 @@ CREATE POLICY "Public can read active listings"
 
 -- Public can read cities
 CREATE POLICY "Public can read cities"
-  ON cities FOR SELECT
+  ON ibclc_cities FOR SELECT
   USING (active = true);
 
 -- Public can read approved reviews
 CREATE POLICY "Public can read approved reviews"
-  ON reviews FOR SELECT
+  ON ibclc_reviews FOR SELECT
   USING (approved = true);
