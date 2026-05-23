@@ -42,11 +42,11 @@ CREATE TABLE ibclc_listings (
   ) STORED,
   -- Full-text search vector
   search_vector tsvector GENERATED ALWAYS AS (
-    setweight(to_tsvector('english', coalesce(name, '')), 'A') ||
-    setweight(to_tsvector('english', coalesce(bio, '')), 'B') ||
-    setweight(to_tsvector('english', coalesce(city, '')), 'C') ||
-    setweight(to_tsvector('english', coalesce(state, '')), 'C') ||
-    setweight(to_tsvector('english', coalesce(array_to_string(specialties, ' '), '')), 'B')
+    setweight(to_tsvector('english'::regconfig, coalesce(name, '')), 'A') ||
+    setweight(to_tsvector('english'::regconfig, coalesce(bio, '')), 'B') ||
+    setweight(to_tsvector('english'::regconfig, coalesce(city, '')), 'C') ||
+    setweight(to_tsvector('english'::regconfig, coalesce(state, '')), 'C') ||
+    setweight(to_tsvector('english'::regconfig, coalesce(array_to_string(specialties, ' '), '')), 'B')
   ) STORED,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
