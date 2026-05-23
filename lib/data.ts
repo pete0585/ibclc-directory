@@ -126,6 +126,7 @@ export async function getActiveStates(): Promise<string[]> {
     .from('ibclc_listings')
     .select('state')
     .eq('status', 'active')
-  const states = [...new Set((data ?? []).map((r: { state: string }) => r.state))].sort()
+  const states = Array.from(new Set((data ?? []).map((r: { state: string }) => r.state))).sort()
   return states
 }
+
