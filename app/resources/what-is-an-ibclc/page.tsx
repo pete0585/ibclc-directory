@@ -8,18 +8,18 @@ export const metadata: Metadata = {
     'An IBCLC (International Board Certified Lactation Consultant) holds the gold-standard credential in breastfeeding care. Learn what sets them apart and why it matters for your baby.',
   openGraph: {
     title: 'What Is an IBCLC? Why It Matters for Your Breastfeeding Journey',
-    description: 'Learn what an IBCLC is, how they're different from other lactation consultants, and how to find one who accepts your insurance.',
+    description: "Learn what an IBCLC is, how they're different from other lactation consultants, and how to find one who accepts your insurance.",
   },
 }
 
 const faqData = [
   {
     q: 'What does IBCLC stand for?',
-    a: 'International Board Certified Lactation Consultant. It's the only internationally recognized credential for lactation care, administered by the International Board of Lactation Consultant Examiners (IBLCE).',
+    a: "International Board Certified Lactation Consultant. It's the only internationally recognized credential for lactation care, administered by the International Board of Lactation Consultant Examiners (IBLCE).",
   },
   {
-    q: 'What's the difference between an IBCLC and a lactation consultant?',
-    a: '"Lactation consultant" is not a protected title — anyone can call themselves one. IBCLC is a protected credential that requires specific education, clinical hours, and a rigorous board exam. When your baby's feeding is struggling, the difference matters.',
+    q: "What's the difference between an IBCLC and a lactation consultant?",
+    a: `"Lactation consultant" is not a protected title — anyone can call themselves one. IBCLC is a protected credential that requires specific education, clinical hours, and a rigorous board exam. When your baby's feeding is struggling, the difference matters.`,
   },
   {
     q: 'Does insurance cover an IBCLC?',
@@ -27,7 +27,7 @@ const faqData = [
   },
   {
     q: 'When should I see an IBCLC?',
-    a: 'Sooner than you think you need to — and as soon as you're struggling. Common reasons: latch problems, nipple pain, low milk supply, oversupply, engorgement, plugged ducts, tongue tie, NICU graduate, returning to work, or just wanting guidance before your baby arrives.',
+    a: "Sooner than you think you need to — and as soon as you're struggling. Common reasons: latch problems, nipple pain, low milk supply, oversupply, engorgement, plugged ducts, tongue tie, NICU graduate, returning to work, or just wanting guidance before your baby arrives.",
   },
   {
     q: 'Can I see an IBCLC by telehealth?',
@@ -206,3 +206,4 @@ export default function WhatIsAnIbclcPage() {
     </>
   )
 }
+
