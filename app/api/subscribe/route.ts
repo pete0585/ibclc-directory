@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const RESEND_AUDIENCE_ID = 'de3bdf48-7106-4705-a3c1-f88ee18e5f98'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,10 +13,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 })
     }
 
+    const normalizedEmail = email.trim().toLowerCase()
     const supabase = await createServiceClient()
 
     const { error } = await supabase.from('email_subscribers').insert({
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       directory: 'ibclc',
       source: 'footer-bar',
     })
@@ -29,9 +31,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to subscribe' }, { status: 500 })
     }
 
-    // Send welcome email via Resend
     const resendKey = process.env.RESEND_API_KEY
     if (resendKey) {
+      // Add to Resend audience
+      await fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: normalizedEmail, unsubscribed: false }),
+      }).catch((err) => console.error('Resend audience add error:', err))
+
+      // Send welcome email
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
@@ -40,7 +52,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           from: 'hello@ibclcdirectory.com',
-          to: email.trim().toLowerCase(),
+          to: normalizedEmail,
           subject: 'Welcome — your weekly IBCLC tips are coming',
           html: `<p>Hi there,</p>
 <p>Thanks for signing up. Every week you'll get practical breastfeeding tips from IBCLCs, plus new listings near you.</p>
