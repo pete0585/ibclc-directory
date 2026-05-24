@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import NewsletterFooterBar from '@/components/NewsletterFooterBar'
 
 export const metadata: Metadata = {
   title: {
@@ -56,6 +57,7 @@ export default function RootLayout({
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />
+        <NewsletterFooterBar />
       </body>
     </html>
   )
