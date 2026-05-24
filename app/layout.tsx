@@ -3,6 +3,8 @@ import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import NewsletterFooterBar from '@/components/NewsletterFooterBar'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata: Metadata = {
   title: {
@@ -58,6 +60,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <NewsletterFooterBar />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
