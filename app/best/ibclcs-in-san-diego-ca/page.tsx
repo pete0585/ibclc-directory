@@ -155,7 +155,7 @@ export default async function BestIbclcsSanDiegoPage() {
           {[
             {
               q: 'Does Tricare cover a lactation consultant in San Diego?',
-              a: 'Yes. San Diego's large military community is well-served by Tricare-accepting IBCLCs. Tricare covers lactation support services in-network and out-of-network. Filter by "Tricare" in the insurance search to find authorized providers near you.',
+              a: "Yes. San Diego's large military community is well-served by Tricare-accepting IBCLCs. Tricare covers lactation support services in-network and out-of-network. Filter by \"Tricare\" in the insurance search to find authorized providers near you.",
             },
             {
               q: 'Do San Diego IBCLCs make home visits?',
