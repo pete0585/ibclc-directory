@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 async function getSanDiegoListings() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data } = await supabase
     .from('ibclc_listings')
     .select('*')

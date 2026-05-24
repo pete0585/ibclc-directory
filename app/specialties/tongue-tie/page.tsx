@@ -38,7 +38,7 @@ const faqData = [
 ]
 
 async function getTongueTieListings() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data } = await supabase
     .from('ibclc_listings')
     .select('id, name, city, state, phone, website, telehealth, plan_tier, specialties, slug')
