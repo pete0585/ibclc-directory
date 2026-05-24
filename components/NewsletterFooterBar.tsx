@@ -12,7 +12,9 @@ export default function NewsletterFooterBar() {
   useEffect(() => {
     const isDismissed = localStorage.getItem(DISMISSED_KEY) === 'true'
     if (!isDismissed) {
-      setDismissed(false)
+      // Small delay so it doesn't flash on first paint
+      const timer = setTimeout(() => setDismissed(false), 1500)
+      return () => clearTimeout(timer)
     }
   }, [])
 
@@ -46,54 +48,57 @@ export default function NewsletterFooterBar() {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-50 shadow-lg border-t border-[#c8b89a]"
-      style={{ backgroundColor: '#f5f0e8' }}
+      role="complementary"
+      aria-label="Newsletter signup"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-ivory-200 shadow-[0_-4px_24px_rgba(61,53,53,0.10)]"
     >
-      <div className="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center gap-4">
-        {/* Dismiss button */}
+      <div className="max-w-4xl mx-auto px-4 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+        {/* Dismiss */}
         <button
           onClick={dismiss}
           aria-label="Dismiss"
-          className="absolute top-2 right-3 text-[#7a6a55] hover:text-[#4a3a28] text-xl leading-none transition-colors"
+          className="absolute top-2 right-3 text-charcoal-300 hover:text-charcoal-500 text-lg leading-none transition-colors"
         >
           ×
         </button>
 
         {/* Copy */}
-        <div className="flex-1 text-center sm:text-left">
-          <p className="text-sm font-semibold text-[#4a3a28] leading-snug">
-            Get weekly breastfeeding tips + find IBCLCs near you
+        <div className="flex-1 min-w-0">
+          <p className="font-serif font-semibold text-charcoal-700 text-sm sm:text-base leading-tight">
+            Weekly breastfeeding tips from IBCLCs
           </p>
-          <p className="text-xs text-[#7a6a55] mt-0.5">No spam. Unsubscribe anytime.</p>
+          <p className="text-charcoal-400 text-xs sm:text-sm mt-0.5">
+            Plus new listings in your area. No spam, ever.
+          </p>
         </div>
 
         {/* Form or success */}
         {status === 'success' ? (
-          <p className="text-sm font-medium text-[#5a8a5a] whitespace-nowrap">
-            You&apos;re in! Check your inbox for breastfeeding tips.
+          <p className="text-sage-500 font-semibold text-sm shrink-0">
+            You&apos;re in! First email coming soon.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="flex items-center gap-2 w-full sm:w-auto">
+          <form onSubmit={handleSubmit} className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your email address"
-              className="flex-1 sm:w-56 px-3 py-2 text-sm rounded-md border border-[#c8b89a] bg-white text-[#4a3a28] placeholder-[#a89880] focus:outline-none focus:ring-2 focus:ring-[#8aaa8a]"
+              placeholder="Your email"
+              disabled={status === 'loading'}
+              className="flex-1 sm:w-52 rounded-full border border-ivory-300 bg-ivory-50 px-4 py-2 text-sm text-charcoal placeholder:text-charcoal-300 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-100 disabled:opacity-60"
             />
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="px-4 py-2 text-sm font-semibold rounded-md bg-[#6b9e6b] text-white hover:bg-[#5a8a5a] disabled:opacity-60 transition-colors whitespace-nowrap"
+              className="shrink-0 rounded-full bg-sage px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-300 focus:ring-offset-2 disabled:opacity-60"
             >
-              {status === 'loading' ? '…' : 'Get Tips'}
+              {status === 'loading' ? 'Sending…' : 'Get the guide'}
             </button>
+            {status === 'error' && (
+              <span className="text-rose-500 text-xs ml-1">Something went wrong. Try again.</span>
+            )}
           </form>
-        )}
-
-        {status === 'error' && (
-          <p className="text-xs text-red-600 mt-1 sm:mt-0">Something went wrong. Try again.</p>
         )}
       </div>
     </div>
