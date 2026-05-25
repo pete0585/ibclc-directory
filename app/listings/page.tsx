@@ -25,10 +25,22 @@ interface Props {
   searchParams: Promise<SearchParams>
 }
 
+function parseLocation(location?: string): { city?: string; state?: string } {
+  if (!location) return {}
+  const loc = location.trim()
+  const commaMatch = loc.match(/^(.+),\s*([A-Za-z]{2})$/)
+  if (commaMatch) return { city: commaMatch[1].trim(), state: commaMatch[2].toUpperCase() }
+  const spaceMatch = loc.match(/^(.+)\s+([A-Za-z]{2})$/)
+  if (spaceMatch) return { city: spaceMatch[1].trim(), state: spaceMatch[2].toUpperCase() }
+  if (/^[A-Za-z]{2}$/.test(loc)) return { state: loc.toUpperCase() }
+  return { city: loc }
+}
+
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const params = await searchParams
-  const state = params.state
-  const city = params.city
+  const parsed = parseLocation(params.location)
+  const state = params.state ?? parsed.state
+  const city = params.city ?? parsed.city
   const specialty = params.specialty
 
   let title = 'Find an IBCLC Near You'
@@ -50,10 +62,13 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 export default async function ListingsPage({ searchParams }: Props) {
   const params = await searchParams
   const page = parseInt(params.page ?? '1', 10)
+  const parsed = parseLocation(params.location)
+  const city = params.city ?? parsed.city
+  const state = params.state ?? parsed.state
 
   const { listings, total } = await getListings({
-    state: params.state,
-    city: params.city,
+    state,
+    city,
     specialty: params.specialty,
     insurance: params.insurance,
     visitType: params.visitType,

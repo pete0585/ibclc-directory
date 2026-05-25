@@ -46,11 +46,12 @@ export default function ClaimPage() {
         body: JSON.stringify({ listingId: params.id, tier }),
       })
       const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? 'Failed to create checkout session')
       if (data.url) {
         window.location.href = data.url
       }
-    } catch {
-      setError('Failed to start checkout. Please try again.')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to start checkout. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -131,6 +132,12 @@ export default function ClaimPage() {
             </button>
           </div>
         </div>
+
+        {error && (
+          <div className="mt-4 rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-600 text-center">
+            {error}
+          </div>
+        )}
 
         <div className="mt-6 text-center">
           <Link href="/" className="text-sm text-charcoal-400 hover:text-charcoal-600">
