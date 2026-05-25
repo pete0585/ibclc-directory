@@ -123,6 +123,15 @@ export async function getActiveCities(limit = 150): Promise<City[]> {
   return data ?? []
 }
 
+export async function getTotalListingCount(): Promise<number> {
+  const supabase = await createClient()
+  const { count } = await supabase
+    .from('ibclc_listings')
+    .select('*', { count: 'exact', head: true })
+    .eq('status', 'active')
+  return count ?? 0
+}
+
 export async function getActiveStates(): Promise<string[]> {
   const supabase = await createClient()
   const { data } = await supabase

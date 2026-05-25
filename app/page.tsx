@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Heart, ShieldCheck, Search, Star, ArrowRight, Video, Home, CheckCircle } from 'lucide-react'
 import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
-import { getFeaturedListings, getActiveCities } from '@/lib/data'
+import { getFeaturedListings, getActiveCities, getTotalListingCount } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Find an IBCLC Near You | IBCLCDirectory.com',
@@ -36,8 +36,9 @@ const SPECIALTY_HIGHLIGHTS = [
 ]
 
 export default async function HomePage() {
-  const [featured] = await Promise.all([
+  const [featured, listingCount] = await Promise.all([
     getFeaturedListings(6).catch(() => []),
+    getTotalListingCount().catch(() => 0),
   ])
 
   return (
@@ -47,7 +48,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-4 py-2 text-sm text-rose-500 mb-6">
             <Heart className="h-4 w-4 fill-rose-300 text-rose-300" />
-            <span>21,185 board-certified IBCLCs in the US</span>
+            <span>{listingCount.toLocaleString()} board-certified IBCLCs in the US</span>
           </div>
 
           <h1 className="font-serif text-4xl font-bold text-charcoal-800 leading-tight sm:text-5xl md:text-6xl text-balance">

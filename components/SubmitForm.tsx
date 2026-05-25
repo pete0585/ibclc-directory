@@ -21,7 +21,7 @@ const schema = z.object({
   visit_types: z.array(z.string()).optional(),
   insurance_accepted: z.array(z.string()).optional(),
   specialties: z.array(z.string()).optional(),
-  bio: z.string().max(500, 'Bio must be 500 words or less').optional(),
+  bio: z.string().max(2000, 'Bio must be 2000 characters or less').optional(),
   languages: z.string().optional(),
 })
 
