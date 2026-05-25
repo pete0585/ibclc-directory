@@ -198,15 +198,18 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
                   Ready to get support?
                 </h3>
                 <p className="mt-1 text-sm text-charcoal-500">
-                  Send {listing.name.split(' ')[0]} a message. Your contact info goes directly to them — not to us.
+                  Visit {listing.name.split(' ')[0]}&apos;s website to book an appointment or get in touch directly.
                 </p>
-                <a
-                  href={`/ibclc/${listing.slug}/contact`}
-                  className="btn-rose mt-3 inline-flex text-sm py-2.5"
-                >
-                  <Mail className="h-4 w-4" />
-                  Send a Message
-                </a>
+                {listing.website && (
+                  <a
+                    href={listing.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-rose mt-3 inline-flex text-sm py-2.5"
+                  >
+                    Visit Website
+                  </a>
+                )}
               </div>
             </div>
           </div>

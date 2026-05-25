@@ -32,7 +32,29 @@ export async function POST(request: NextRequest) {
       const listingId = session.metadata?.listing_id
       const planTier = session.metadata?.plan_tier as 'pro' | 'verified' | undefined
 
-      if (!listingId || !planTier) break
+      if (!listingId || !planTier) {
+        // Payment succeeded but metadata missing — log it and alert admin
+        console.error('STRIPE WEBHOOK: checkout.session.completed missing metadata', {
+          sessionId: session.id,
+          amount: session.amount_total,
+          customer: session.customer,
+          metadata: session.metadata,
+        })
+        // Alert via Resend if configured
+        if (process.env.RESEND_API_KEY) {
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              from: process.env.RESEND_FROM_EMAIL ?? 'hello@ibclcdirectory.com',
+              to: process.env.ADMIN_EMAIL ?? 'adam@thestrategicveteran.com',
+              subject: '⚠️ Stripe payment received but listing NOT upgraded',
+              html: `<p>A Stripe checkout completed but <strong>listing_id or plan_tier metadata was missing</strong>. The customer was charged but their listing was NOT upgraded.</p><p><strong>Session ID:</strong> ${session.id}<br/><strong>Amount:</strong> $${(session.amount_total ?? 0) / 100}<br/><strong>Customer:</strong> ${session.customer}</p><p>Manually upgrade this listing in the Stripe dashboard.</p>`,
+            }),
+          }).catch(e => console.error('Failed to send webhook alert email:', e))
+        }
+        break
+      }
 
       await supabase
         .from('ibclc_listings')

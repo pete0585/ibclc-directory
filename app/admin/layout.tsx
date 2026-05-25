@@ -12,7 +12,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const adminEmail = process.env.ADMIN_EMAIL
-  if (adminEmail && user.email !== adminEmail) {
+  if (!adminEmail) {
+    // ADMIN_EMAIL must be set — fail closed, not open
+    console.error('ADMIN_EMAIL env var is not set. Denying all admin access.')
+    redirect('/')
+  }
+  if (user.email !== adminEmail) {
     redirect('/')
   }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { CheckCircle, Loader2, ShieldCheck, Star } from 'lucide-react'
 import Link from 'next/link'
 
@@ -9,11 +9,19 @@ type Step = 'email' | 'verifying' | 'verified' | 'upgrade' | 'error'
 
 export default function ClaimPage() {
   const params = useParams<{ id: string }>()
+  const searchParams = useSearchParams()
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [listingName, setListingName] = useState<string>('')
+
+  // Detect redirect from /api/claim/verify?verified=true
+  useEffect(() => {
+    if (searchParams.get('verified') === 'true') {
+      setStep('upgrade')
+    }
+  }, [searchParams])
 
   async function sendClaimEmail(e: React.FormEvent) {
     e.preventDefault()

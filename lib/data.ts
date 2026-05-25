@@ -21,6 +21,7 @@ export async function getListings({
   telehealth,
   acceptingNew,
   search,
+  tier,
   page = 1,
   pageSize = 20,
 }: {
@@ -32,6 +33,7 @@ export async function getListings({
   telehealth?: boolean
   acceptingNew?: boolean
   search?: string
+  tier?: string
   page?: number
   pageSize?: number
 }): Promise<{ listings: Listing[]; total: number }> {
@@ -51,6 +53,7 @@ export async function getListings({
   if (telehealth === true) query = query.eq('telehealth', true)
   if (acceptingNew === true) query = query.eq('accepting_new_clients', true)
   if (search) query = query.textSearch('search_vector', search, { type: 'websearch' })
+  if (tier) query = query.eq('plan_tier', tier)
 
   const from = (page - 1) * pageSize
   const to = from + pageSize - 1
