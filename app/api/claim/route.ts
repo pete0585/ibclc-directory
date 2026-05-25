@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: process.env.RESEND_FROM_EMAIL ?? 'hello@ibclcdirectory.com',
+          from: process.env.RESEND_FROM_EMAIL ?? 'IBCLC Directory <hello@mail.ibclcdirectory.com>',
           to: email,
           subject: `Claim your IBCLCDirectory.com listing: ${listing.name}`,
           html: `
