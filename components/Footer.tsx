@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal-700 text-charcoal-100">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sage-300/20">
@@ -39,6 +39,13 @@ export default function Footer() {
               <li><Link href="/submit" className="text-sm text-charcoal-200 hover:text-white transition-colors">List Your Practice</Link></li>
               <li><Link href="/submit#pricing" className="text-sm text-charcoal-200 hover:text-white transition-colors">Pricing</Link></li>
               <li><Link href="/admin" className="text-sm text-charcoal-200 hover:text-white transition-colors">Admin Login</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">Related Directories</h3>
+            <ul className="space-y-2.5">
+              <li><a href="https://menopausedirectory.co" target="_blank" rel="noopener" className="text-sm text-charcoal-200 hover:text-white transition-colors">Menopause Directory</a></li>
             </ul>
           </div>
         </div>
