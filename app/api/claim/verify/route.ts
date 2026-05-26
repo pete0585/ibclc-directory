@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   const { data: claim, error } = await supabase
     .from('ibclc_claims')
-    .select('*, listings(id, name)')
+    .select('*')
     .eq('token', token)
     .eq('verified', false)
     .single()
