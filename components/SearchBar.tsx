@@ -1,14 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, MapPin } from 'lucide-react'
+import { Search, MapPin, Loader2 } from 'lucide-react'
 
 interface SearchBarProps {
   defaultLocation?: string
   defaultQuery?: string
   size?: 'default' | 'large'
   className?: string
+}
+
+interface ZipResult {
+  city: string
+  state: string
+  state_abbr: string
 }
 
 export default function SearchBar({
@@ -19,12 +25,48 @@ export default function SearchBar({
 }: SearchBarProps) {
   const [location, setLocation] = useState(defaultLocation)
   const [query, setQuery] = useState(defaultQuery)
+  const [resolvedCity, setResolvedCity] = useState<string | undefined>()
+  const [resolvedState, setResolvedState] = useState<string | undefined>()
+  const [zipLoading, setZipLoading] = useState(false)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const router = useRouter()
+
+  async function resolveZip(value: string) {
+    if (!/^\d{5}$/.test(value)) return
+    setZipLoading(true)
+    try {
+      const res = await fetch(`/api/geocode/zip?zip=${value}`)
+      if (!res.ok) return
+      const data: ZipResult = await res.json()
+      const display = `${data.city}, ${data.state_abbr}`
+      setLocation(display)
+      setResolvedCity(data.city)
+      setResolvedState(data.state_abbr)
+    } catch {
+      // silently ignore — user can still search as typed
+    } finally {
+      setZipLoading(false)
+    }
+  }
+
+  function handleLocationChange(value: string) {
+    setLocation(value)
+    // Clear any previously resolved zip data when user edits the field
+    setResolvedCity(undefined)
+    setResolvedState(undefined)
+
+    if (/^\d{5}$/.test(value)) {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+      debounceRef.current = setTimeout(() => resolveZip(value), 400)
+    }
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const params = new URLSearchParams()
-    if (location.trim()) params.set('location', location.trim())
+    if (resolvedCity) params.set('city', resolvedCity)
+    if (resolvedState) params.set('state', resolvedState)
+    else if (location.trim()) params.set('location', location.trim())
     if (query.trim()) params.set('q', query.trim())
     router.push(`/listings?${params.toString()}`)
   }
@@ -48,12 +90,16 @@ export default function SearchBar({
       </div>
 
       <div className="relative flex-1">
-        <MapPin className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal-300" />
+        {zipLoading ? (
+          <Loader2 className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-sage-400 animate-spin" />
+        ) : (
+          <MapPin className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-charcoal-300" />
+        )}
         <input
           type="text"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="City or state…"
+          onChange={(e) => handleLocationChange(e.target.value)}
+          placeholder="City, state, or zip…"
           className={`w-full rounded-xl border border-ivory-300 bg-white pl-10 pr-4 text-sm text-charcoal placeholder:text-charcoal-300 focus:border-sage focus:outline-none focus:ring-2 focus:ring-sage-100 ${isLarge ? 'py-4' : 'py-3'}`}
         />
       </div>

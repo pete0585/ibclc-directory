@@ -214,9 +214,12 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/cities" className="btn-secondary">
               Browse all cities <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href="/states" className="btn-secondary">
+              Browse by state <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
