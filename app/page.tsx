@@ -215,7 +215,7 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-8 text-center">
-            <Link href="/listings" className="btn-secondary">
+            <Link href="/cities" className="btn-secondary">
               Browse all cities <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
