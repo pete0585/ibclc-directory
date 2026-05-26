@@ -78,8 +78,8 @@ export async function getListingsNear({
 }): Promise<{ listings: Listing[]; total: number }> {
   const supabase = await createClient()
   const { data, error } = await supabase.rpc('find_ibclc_near', {
-    lat,
-    lng,
+    search_lat: lat,
+    search_lng: lng,
     radius_miles: radius,
   })
   if (error || !data) return { listings: [], total: 0 }
