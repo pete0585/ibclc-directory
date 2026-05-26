@@ -6,7 +6,7 @@ import SubmitForm from '@/components/SubmitForm'
 export const metadata: Metadata = {
   title: 'List Your IBCLC Practice',
   description:
-    'Add your practice to IBCLCDirectory.com. Free listing available. Pro ($149/year) and Verified ($299/year) listings get full profiles, contact forms, and priority placement.',
+    'Add your practice to IBCLCDirectory.com. Free listing available. Pro ($79/year) and Verified ($129/year) listings get full profiles, contact forms, and priority placement.',
 }
 
 const PRICING_TIERS = [
@@ -26,7 +26,7 @@ const PRICING_TIERS = [
   },
   {
     name: 'Pro',
-    price: '$149',
+    price: '$79',
     period: 'per year',
     description: 'Full profile that converts searchers to clients.',
     features: [
@@ -45,7 +45,7 @@ const PRICING_TIERS = [
   },
   {
     name: 'Verified IBCLC',
-    price: '$299',
+    price: '$129',
     period: 'per year',
     description: 'Maximum trust. Maximum visibility.',
     features: [

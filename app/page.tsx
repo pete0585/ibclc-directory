@@ -233,7 +233,7 @@ export default async function HomePage() {
           </h2>
           <p className="text-sage-50 text-lg mb-8 leading-relaxed">
             Get a free listing on the only nationwide directory built specifically for IBCLCs.
-            Pro listings start at $149/year — one new client pays for it twice over.
+            Pro listings start at $79/year — one new client pays for it twice over.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

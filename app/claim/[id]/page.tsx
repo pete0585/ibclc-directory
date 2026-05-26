@@ -113,7 +113,7 @@ export default function ClaimPage() {
               <Star className="h-5 w-5 text-sage-500" />
               <span className="font-semibold text-charcoal-700">Pro Listing</span>
             </div>
-            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$149<span className="text-base font-normal text-charcoal-400">/year</span></p>
+            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$79<span className="text-base font-normal text-charcoal-400">/year</span></p>
             <p className="text-sm text-charcoal-500 mb-4">Photo, bio, specialties, contact form, priority placement.</p>
             <button
               onClick={() => upgradeToProOrVerified('pro')}
@@ -129,7 +129,7 @@ export default function ClaimPage() {
               <ShieldCheck className="h-5 w-5 text-rose-400" />
               <span className="font-semibold text-charcoal-700">Verified IBCLC</span>
             </div>
-            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$299<span className="text-base font-normal text-charcoal-400">/year</span></p>
+            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$129<span className="text-base font-normal text-charcoal-400">/year</span></p>
             <p className="text-sm text-charcoal-500 mb-4">Everything in Pro + credential verification, top placement.</p>
             <button
               onClick={() => upgradeToProOrVerified('verified')}
