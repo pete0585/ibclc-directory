@@ -75,6 +75,7 @@ export default async function ListingsPage({ searchParams }: Props) {
     telehealth: params.telehealth === 'true' ? true : undefined,
     acceptingNew: params.acceptingNew === 'true' ? true : undefined,
     search: params.q,
+    tier: params.tier,
     page,
     pageSize: 20,
   })
@@ -114,7 +115,11 @@ export default async function ListingsPage({ searchParams }: Props) {
           {listings.length === 0 ? (
             <div className="card p-12 text-center">
               <p className="text-charcoal-500 mb-4">
-                No IBCLCs found matching your search. Try adjusting your filters.
+                {params.tier === 'verified'
+                  ? 'No Verified IBCLCs found yet — check back as practitioners upgrade their listings.'
+                  : params.tier === 'pro'
+                  ? 'No Pro IBCLCs found yet — check back as practitioners upgrade their listings.'
+                  : 'No IBCLCs found matching your search. Try adjusting your filters.'}
               </p>
               <Link href="/listings" className="btn-secondary text-sm">
                 Clear all filters
