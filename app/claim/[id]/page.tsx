@@ -16,7 +16,6 @@ export default function ClaimPage() {
   const [error, setError] = useState<string | null>(null)
   const [listingName, setListingName] = useState<string>('')
 
-  // Detect redirect from /api/claim/verify?verified=true
   useEffect(() => {
     if (searchParams.get('verified') === 'true') {
       setStep('upgrade')
