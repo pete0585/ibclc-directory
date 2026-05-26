@@ -15,6 +15,8 @@ interface ZipResult {
   city: string
   state: string
   state_abbr: string
+  lat: number
+  lng: number
 }
 
 export default function SearchBar({
@@ -27,6 +29,8 @@ export default function SearchBar({
   const [query, setQuery] = useState(defaultQuery)
   const [resolvedCity, setResolvedCity] = useState<string | undefined>()
   const [resolvedState, setResolvedState] = useState<string | undefined>()
+  const [resolvedLat, setResolvedLat] = useState<number | undefined>()
+  const [resolvedLng, setResolvedLng] = useState<number | undefined>()
   const [zipLoading, setZipLoading] = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const router = useRouter()
@@ -42,6 +46,8 @@ export default function SearchBar({
       setLocation(display)
       setResolvedCity(data.city)
       setResolvedState(data.state_abbr)
+      setResolvedLat(data.lat)
+      setResolvedLng(data.lng)
     } catch {
       // silently ignore — user can still search as typed
     } finally {
@@ -54,6 +60,8 @@ export default function SearchBar({
     // Clear any previously resolved zip data when user edits the field
     setResolvedCity(undefined)
     setResolvedState(undefined)
+    setResolvedLat(undefined)
+    setResolvedLng(undefined)
 
     if (/^\d{5}$/.test(value)) {
       if (debounceRef.current) clearTimeout(debounceRef.current)
@@ -67,6 +75,8 @@ export default function SearchBar({
     if (resolvedCity) params.set('city', resolvedCity)
     if (resolvedState) params.set('state', resolvedState)
     else if (location.trim()) params.set('location', location.trim())
+    if (resolvedLat !== undefined) params.set('lat', String(resolvedLat))
+    if (resolvedLng !== undefined) params.set('lng', String(resolvedLng))
     if (query.trim()) params.set('q', query.trim())
     router.push(`/listings?${params.toString()}`)
   }

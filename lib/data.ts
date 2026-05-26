@@ -63,6 +63,31 @@ export async function getListings({
   return { listings: data ?? [], total: count ?? 0 }
 }
 
+export async function getListingsNear({
+  lat,
+  lng,
+  radius = 25,
+  page = 1,
+  pageSize = 20,
+}: {
+  lat: number
+  lng: number
+  radius?: number
+  page?: number
+  pageSize?: number
+}): Promise<{ listings: Listing[]; total: number }> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('find_ibclc_near', {
+    lat,
+    lng,
+    radius_miles: radius,
+  })
+  if (error || !data) return { listings: [], total: 0 }
+  const all = data as Listing[]
+  const from = (page - 1) * pageSize
+  return { listings: all.slice(from, from + pageSize), total: all.length }
+}
+
 export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
   const supabase = await createClient()
   const { data } = await supabase

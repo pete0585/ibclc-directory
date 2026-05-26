@@ -5,13 +5,15 @@ import { SlidersHorizontal } from 'lucide-react'
 import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
 import FilterSidebar from '@/components/FilterSidebar'
-import { getListings } from '@/lib/data'
+import { getListings, getListingsNear } from '@/lib/data'
 
 interface SearchParams {
   q?: string
   location?: string
   state?: string
   city?: string
+  lat?: string
+  lng?: string
   specialty?: string
   insurance?: string
   visitType?: string
@@ -65,8 +67,10 @@ export default async function ListingsPage({ searchParams }: Props) {
   const parsed = parseLocation(params.location)
   const city = params.city ?? parsed.city
   const state = params.state ?? parsed.state
+  const lat = params.lat ? parseFloat(params.lat) : undefined
+  const lng = params.lng ? parseFloat(params.lng) : undefined
 
-  const { listings, total } = await getListings({
+  let { listings, total } = await getListings({
     state,
     city,
     specialty: params.specialty,
@@ -79,6 +83,18 @@ export default async function ListingsPage({ searchParams }: Props) {
     page,
     pageSize: 20,
   })
+
+  // Proximity fallback: if a zip lookup provided lat/lng and city search returned nothing,
+  // show IBCLCs within 25 miles
+  let isProximitySearch = false
+  if (total === 0 && lat !== undefined && lng !== undefined && !isNaN(lat) && !isNaN(lng)) {
+    const nearby = await getListingsNear({ lat, lng, radius: 25, page, pageSize: 20 })
+    if (nearby.total > 0) {
+      listings = nearby.listings
+      total = nearby.total
+      isProximitySearch = true
+    }
+  }
 
   const totalPages = Math.ceil(total / 20)
 
@@ -111,6 +127,12 @@ export default async function ListingsPage({ searchParams }: Props) {
               )}
             </h1>
           </div>
+
+          {isProximitySearch && city && (
+            <div className="mb-4 rounded-lg bg-sage-50 border border-sage-200 px-4 py-3 text-sm text-sage-700">
+              No IBCLCs found in {city} — showing IBCLCs within 25 miles of {city}.
+            </div>
+          )}
 
           {listings.length === 0 ? (
             <div className="card p-12 text-center">
