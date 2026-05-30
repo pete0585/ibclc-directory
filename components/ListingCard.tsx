@@ -50,7 +50,7 @@ export default function ListingCard({ listing, featured = false }: ListingCardPr
                 {listing.name}
               </h3>
               <p className="text-xs text-charcoal-400 mt-0.5">
-                {listing.credentials.join(', ')}
+                {(listing.credentials ?? []).join(', ')}
               </p>
             </div>
             <div className="shrink-0">
@@ -87,7 +87,7 @@ export default function ListingCard({ listing, featured = false }: ListingCardPr
                 Telehealth
               </span>
             )}
-            {listing.visit_types.includes('home') && (
+            {(listing.visit_types ?? []).includes('home') && (
               <span className="inline-flex items-center gap-1 rounded-full bg-ivory-200 px-2 py-0.5 text-xs text-charcoal-500">
                 <Home className="h-3 w-3" />
                 Home visits
@@ -99,23 +99,23 @@ export default function ListingCard({ listing, featured = false }: ListingCardPr
                 Accepting clients
               </span>
             )}
-            {listing.insurance_accepted.length > 0 && (
+            {(listing.insurance_accepted ?? []).length > 0 && (
               <span className="inline-flex items-center gap-1 rounded-full bg-ivory-200 px-2 py-0.5 text-xs text-charcoal-500">
                 Insurance accepted
               </span>
             )}
           </div>
 
-          {listing.specialties.length > 0 && (
+          {(listing.specialties ?? []).length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {listing.specialties.slice(0, 3).map((s) => (
+              {(listing.specialties ?? []).slice(0, 3).map((s) => (
                 <span key={s} className="rounded-full bg-rose-50 px-2 py-0.5 text-xs text-rose-500">
                   {s}
                 </span>
               ))}
-              {listing.specialties.length > 3 && (
+              {(listing.specialties ?? []).length > 3 && (
                 <span className="rounded-full bg-ivory-200 px-2 py-0.5 text-xs text-charcoal-400">
-                  +{listing.specialties.length - 3} more
+                  +{(listing.specialties ?? []).length - 3} more
                 </span>
               )}
             </div>
