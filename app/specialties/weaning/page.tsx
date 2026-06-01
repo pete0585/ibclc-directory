@@ -17,19 +17,19 @@ export const metadata: Metadata = {
 const faqData = [
   {
     q: 'When is it the right time to wean?',
-    a: "There is no single right answer — the right time to wean is when it is right for your family. The WHO and AAP recommend breastfeeding for at least 12 months, and continuing as long as mutually desired beyond that. Some families choose to wean at 6 months, some at 2 years or later. An IBCLC can help you think through the timing, make a plan, and support a weaning process that is gradual enough to protect your comfort and your baby's emotional adjustment.",
+    a: 'There is no single right answer — the right time to wean is when it is right for your family. The WHO and AAP recommend breastfeeding for at least 12 months, and continuing as long as mutually desired beyond that. Some families choose to wean at 6 months, some at 2 years or later. An IBCLC can help you think through the timing, make a plan, and support a weaning process that is gradual enough to protect your comfort and your baby\'s emotional adjustment.',
   },
   {
     q: 'How do I wean without getting engorged or developing mastitis?',
-    a: "The safest weaning approach is gradual — dropping one feeding session every few days or once a week. This gives your body time to reduce supply without the engorgement and inflammation that comes with abrupt stopping. If you need to wean quickly for medical or other reasons, an IBCLC can guide you through a managed reduction protocol, including when to pump to comfort (not to empty) and how to monitor for early signs of mastitis.",
+    a: 'The safest weaning approach is gradual — dropping one feeding session every few days or once a week. This gives your body time to reduce supply without the engorgement and inflammation that comes with abrupt stopping. If you need to wean quickly for medical or other reasons, an IBCLC can guide you through a managed reduction protocol, including when to pump to comfort (not to empty) and how to monitor for early signs of mastitis.',
   },
   {
     q: 'How do I wean a toddler who does not want to stop?',
-    a: "Toddler-led weaning is different from infant weaning — your child can understand language and negotiate. Strategies that work include don't offer, don't refuse (reducing sessions without actively refusing); shortening sessions gradually; eliminating the easiest sessions first (mid-day) and saving the hardest (bedtime, morning) for last; and substituting other comfort rituals. An IBCLC who is experienced with extended breastfeeding can help you develop a plan that reduces conflict and supports your toddler's emotional transition.",
+    a: 'Toddler-led weaning is different from infant weaning — your child can understand language and negotiate. Strategies that work include don\'t offer, don\'t refuse (reducing sessions without actively refusing); shortening sessions gradually; eliminating the easiest sessions first (mid-day) and saving the hardest (bedtime, morning) for last; and substituting other comfort rituals. An IBCLC who is experienced with extended breastfeeding can help you develop a plan that reduces conflict and supports your toddler\'s emotional transition.',
   },
   {
     q: 'What happens to my body when I wean?',
-    a: "As you wean, prolactin and oxytocin levels drop. This is a real hormonal shift that some women experience as mood changes, increased fatigue, or feelings of sadness. These symptoms are normal and typically resolve within a few weeks. Physically, supply drops gradually and milk reabsorbs. Your body adjusts — but the timeline varies significantly from person to person. An IBCLC can help you manage the physical side of weaning and prepare you for what to expect emotionally.",
+    a: 'As you wean, prolactin and oxytocin levels drop. This is a real hormonal shift that some women experience as mood changes, increased fatigue, or feelings of sadness. These symptoms are normal and typically resolve within a few weeks. Physically, supply drops gradually and milk reabsorbs. Your body adjusts — but the timeline varies significantly from person to person. An IBCLC can help you manage the physical side of weaning and prepare you for what to expect emotionally.',
   },
 ]
 
