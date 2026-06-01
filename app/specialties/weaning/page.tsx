@@ -4,11 +4,11 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Find an IBCLC for Weaning Support | IBCLCDirectory.com',
+  title: 'IBCLCs for Weaning Support | IBCLCDirectory.com',
   description:
-    'Find an IBCLC who specializes in weaning. Whether you are weaning a toddler or stopping breastfeeding earlier than planned, an IBCLC can guide the process safely and comfortably.',
+    'Find an IBCLC who specializes in weaning. Whether you are weaning a toddler or stopping breastfeeding earlier than planned, an IBCLC can guide the process safely.',
   openGraph: {
-    title: 'Find an IBCLC for Weaning',
+    title: 'Find an IBCLC for Weaning Support',
     description:
       'Weaning does not have to be abrupt or uncomfortable. Find an IBCLC who can guide the process at a pace that works for you and your baby.',
   },
@@ -17,27 +17,27 @@ export const metadata: Metadata = {
 const faqData = [
   {
     q: 'When is it the right time to wean?',
-    a: 'There is no single right answer — the right time to wean is when it is right for your family. The WHO and AAP recommend breastfeeding for at least 12 months, and continuing as long as mutually desired beyond that. Some families choose to wean at 6 months, some at 2 years or later. An IBCLC can help you think through the timing, make a plan, and support a weaning process that is gradual enough to protect your comfort and your baby\'s emotional adjustment.',
+    a: 'There is no single right answer — the right time is when it is right for your family. The WHO and AAP recommend breastfeeding for at least 12 months, continuing as long as mutually desired. An IBCLC can help you make a plan and support a gradual weaning process that protects your comfort and your baby\'s emotional adjustment.',
   },
   {
     q: 'How do I wean without getting engorged or developing mastitis?',
-    a: 'The safest weaning approach is gradual — dropping one feeding session every few days or once a week. This gives your body time to reduce supply without the engorgement and inflammation that comes with abrupt stopping. If you need to wean quickly for medical or other reasons, an IBCLC can guide you through a managed reduction protocol, including when to pump to comfort (not to empty) and how to monitor for early signs of mastitis.',
+    a: 'The safest approach is gradual — dropping one feeding session every few days or once a week. This gives your body time to reduce supply without the engorgement that comes with abrupt stopping. If you need to wean quickly for medical reasons, an IBCLC can guide a managed reduction protocol, including when to pump to comfort (not to empty) and how to monitor for early signs of mastitis.',
   },
   {
     q: 'How do I wean a toddler who does not want to stop?',
-    a: 'Toddler-led weaning is different from infant weaning — your child can understand language and negotiate. Strategies that work include don\'t offer, don\'t refuse (reducing sessions without actively refusing); shortening sessions gradually; eliminating the easiest sessions first (mid-day) and saving the hardest (bedtime, morning) for last; and substituting other comfort rituals. An IBCLC who is experienced with extended breastfeeding can help you develop a plan that reduces conflict and supports your toddler\'s emotional transition.',
+    a: 'Toddler-led weaning is different from infant weaning — your child can understand language and negotiate. Strategies include: don\'t offer, don\'t refuse; shortening sessions gradually; eliminating the easiest sessions first (mid-day) and saving the hardest (bedtime, morning) for last; and substituting other comfort rituals. An IBCLC experienced with extended breastfeeding can help you build a plan that reduces conflict.',
   },
   {
     q: 'What happens to my body when I wean?',
-    a: 'As you wean, prolactin and oxytocin levels drop. This is a real hormonal shift that some women experience as mood changes, increased fatigue, or feelings of sadness. These symptoms are normal and typically resolve within a few weeks. Physically, supply drops gradually and milk reabsorbs. Your body adjusts — but the timeline varies significantly from person to person. An IBCLC can help you manage the physical side of weaning and prepare you for what to expect emotionally.',
+    a: 'As you wean, prolactin and oxytocin levels drop — a real hormonal shift that some women experience as mood changes, increased fatigue, or feelings of sadness. These symptoms are normal and typically resolve within a few weeks. Physically, supply drops gradually and milk reabsorbs. An IBCLC can help you manage the physical side of weaning and prepare you for what to expect emotionally.',
   },
 ]
 
-async function getListings() {
+async function getWeaningListings() {
   const supabase = await createClient()
   const { data } = await supabase
     .from('ibclc_listings')
-    .select('*')
+    .select('id, name, city, state, telehealth, plan_tier, slug')
     .eq('status', 'active')
     .order('plan_tier', { ascending: false })
     .limit(9)
@@ -45,7 +45,7 @@ async function getListings() {
 }
 
 export default async function WeaningPage() {
-  const listings = await getListings()
+  const listings = await getWeaningListings()
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -89,15 +89,13 @@ export default async function WeaningPage() {
             <p>
               Weaning is often portrayed as straightforward — just stop nursing. But abrupt weaning
               carries real risks: engorgement, plugged ducts, mastitis, and the hormonal drop that can
-              trigger significant mood changes. And for many families, weaning involves a child who is
+              trigger significant mood changes. For many families, weaning involves a child who is
               not entirely on board with the plan.
             </p>
             <p className="mt-3">
-              An IBCLC who has supported weaning brings specific knowledge to the process: how fast to
-              reduce sessions without causing problems, which sessions to drop first, how to manage
-              supply physically, and how to support a toddler through the emotional side of the
-              transition. This is not the same as general parenting advice — it is clinical knowledge
-              about lactation physiology and infant feeding behavior.
+              An IBCLC who has supported weaning brings specific knowledge: how fast to reduce sessions
+              without causing problems, which sessions to drop first, how to manage supply physically,
+              and how to support a toddler through the emotional side of the transition.
             </p>
           </section>
 
@@ -107,11 +105,11 @@ export default async function WeaningPage() {
             </h2>
             <ul className="space-y-3 mt-3">
               {[
-                { label: 'Gradual weaning plan', detail: 'A session-by-session reduction schedule tailored to your current feeding frequency, your baby's age, and your timeline.' },
-                { label: 'Medically necessary weaning', detail: 'If you need to stop breastfeeding quickly — for surgery, medication, or other reasons — an IBCLC can guide a managed reduction that minimizes physical complications.' },
-                { label: 'Toddler weaning strategy', detail: 'Extended breastfeeding presents specific behavioral challenges. An IBCLC experienced with nursing toddlers can help you navigate the don\'t offer, don\'t refuse approach and build substitute comfort rituals.' },
-                { label: 'Mastitis prevention', detail: 'Plugged ducts and mastitis are the most common complications of weaning too fast. An IBCLC can help you read your body\'s signals and adjust your pace to stay ahead of problems.' },
-                { label: 'Emotional support', detail: 'The hormonal drop at weaning is real and affects mood. An IBCLC can normalize what you are experiencing and help you distinguish typical adjustment from something worth discussing with your provider.' },
+                { label: 'Gradual weaning plan', detail: 'A session-by-session reduction schedule tailored to your current feeding frequency, your baby\'s age, and your timeline.' },
+                { label: 'Medically necessary weaning', detail: 'If you need to stop breastfeeding quickly — for surgery, medication, or other reasons — an IBCLC can guide a managed reduction that minimizes complications.' },
+                { label: 'Toddler weaning strategy', detail: 'Extended breastfeeding presents specific behavioral challenges. An IBCLC experienced with nursing toddlers can help you navigate the process and build substitute comfort rituals.' },
+                { label: 'Mastitis prevention', detail: 'Plugged ducts and mastitis are the most common complications of weaning too fast. An IBCLC can help you read your body\'s signals and adjust your pace.' },
+                { label: 'Emotional support', detail: 'The hormonal drop at weaning is real and affects mood. An IBCLC can normalize what you are experiencing and help you decide when to involve your provider.' },
               ].map(({ label, detail }) => (
                 <div key={label} className="card p-4">
                   <p className="font-semibold text-charcoal-700 text-sm mb-1">{label}</p>
@@ -164,34 +162,34 @@ export default async function WeaningPage() {
               Find an IBCLC Near Me <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
 
-        <div className="mt-14">
-          <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-6">
-            Weaning Questions, Answered
-          </h2>
-          <div className="space-y-4">
-            {faqData.map((faq) => (
-              <div key={faq.q} className="card p-5">
-                <h3 className="font-serif text-base font-semibold text-charcoal-800 mb-2">{faq.q}</h3>
-                <p className="text-sm text-charcoal-500 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+          <div className="mt-14">
+            <h2 className="font-serif text-2xl font-semibold text-charcoal-800 mb-6">
+              Weaning Questions, Answered
+            </h2>
+            <div className="space-y-4">
+              {faqData.map((faq) => (
+                <div key={faq.q} className="card p-5">
+                  <h3 className="font-serif text-base font-semibold text-charcoal-800 mb-2">{faq.q}</h3>
+                  <p className="text-sm text-charcoal-500 leading-relaxed">{faq.a}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <div className="mt-12 pt-8 border-t border-ivory-300">
-          <h3 className="font-serif text-lg font-semibold text-charcoal-700 mb-4">Related Resources</h3>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/specialties/low-milk-supply" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
-              Low Milk Supply Support →
-            </Link>
-            <Link href="/resources/how-to-choose-an-ibclc" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
-              How to Choose an IBCLC →
-            </Link>
-            <Link href="/listings" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
-              Browse All IBCLCs →
-            </Link>
+          <div className="mt-12 pt-8 border-t border-ivory-300">
+            <h3 className="font-serif text-lg font-semibold text-charcoal-700 mb-4">Related Resources</h3>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/specialties/low-milk-supply" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
+                Low Milk Supply Support &rarr;
+              </Link>
+              <Link href="/resources/how-to-choose-an-ibclc" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
+                How to Choose an IBCLC &rarr;
+              </Link>
+              <Link href="/listings" className="text-sm text-sage-600 hover:text-sage-700 font-medium">
+                Browse All IBCLCs &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       </article>
