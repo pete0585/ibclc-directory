@@ -14,12 +14,12 @@ export default function Footer() {
                 <Heart className="h-4 w-4 text-sage-300 fill-sage-300" />
               </div>
               <span className="font-serif text-lg font-bold text-white">
-                IBCLC<span className="text-sage-300">Directory</span>
+                Lactation Consultant<span className="text-sage-300">Directory</span>
               </span>
             </Link>
             <p className="text-sm text-charcoal-200 max-w-sm leading-relaxed">
               The nationwide directory of International Board Certified Lactation Consultants.
-              Built for the families who need them — not the associations who gate them.
+              Connecting families with qualified lactation professionals since 2024.
             </p>
           </div>
 
@@ -50,13 +50,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-charcoal-600 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-charcoal-300">
-            © {currentYear} IBCLCDirectory.com. All rights reserved.
+        <div className="mt-10 border-t border-charcoal-600 pt-8">
+          <p className="text-xs text-charcoal-400 max-w-3xl leading-relaxed mb-4">
+            Lactation Consultant Directory is an independent directory and is not affiliated with, endorsed by, or sponsored by IBLCE or the IBCLC Commission. IBCLC and International Board Certified Lactation Consultant are certification marks of the International Board of Lactation Consultant Examiners, used here only to identify professionals who hold that credential.
           </p>
-          <p className="text-xs text-charcoal-400 max-w-2xl leading-relaxed">
-            IBCLCDirectory.com is an independent directory and is not affiliated with, endorsed by, or sponsored by IBLCE or the IBCLC Commission. IBCLC and International Board Certified Lactation Consultant are certification marks of the International Board of Lactation Consultant Examiners, used here only to identify professionals who hold that credential.
-          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <p className="text-xs text-charcoal-300">© {currentYear} LactationConsultantDirectory.com. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>

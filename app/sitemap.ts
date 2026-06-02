@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { US_STATES } from '@/types'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibclcdirectory.com'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lactationconsultantdirectory.com'
 
 export const revalidate = 3600 // regenerate every hour
 
@@ -14,7 +14,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .from('ibclc_listings')
       .select('slug, updated_at')
       .eq('status', 'active')
-      .order('updated_at', { ascending: false }),
+      .order('updated_at', { ascending: false })
+      .limit(1000),
     supabase
       .from('ibclc_cities')
       .select('slug, state, updated_at')

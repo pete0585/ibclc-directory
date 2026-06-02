@@ -16,13 +16,13 @@ export default function Navigation() {
               <Heart className="h-4 w-4 text-sage fill-sage" />
             </div>
             <span className="font-serif text-lg font-bold text-charcoal-700">
-              IBCLC<span className="text-sage">Directory</span>
+              Lactation Consultant<span className="text-sage">Directory</span>
             </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
             <Link href="/listings" className="text-sm font-medium text-charcoal-400 hover:text-charcoal-700 transition-colors">
-              Find an IBCLC
+              Find a Lactation Consultant
             </Link>
             <Link href="/resources/what-is-an-ibclc" className="text-sm font-medium text-charcoal-400 hover:text-charcoal-700 transition-colors">
               What is an IBCLC?
@@ -51,7 +51,7 @@ export default function Navigation() {
               className="block px-4 py-2.5 text-sm font-medium text-charcoal-600 hover:bg-ivory-100 rounded-lg"
               onClick={() => setMobileOpen(false)}
             >
-              Find an IBCLC
+              Find a Lactation Consultant
             </Link>
             <Link
               href="/resources/what-is-an-ibclc"
