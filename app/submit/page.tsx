@@ -4,9 +4,9 @@ import { CheckCircle, Star, ShieldCheck } from 'lucide-react'
 import SubmitForm from '@/components/SubmitForm'
 
 export const metadata: Metadata = {
-  title: 'List Your IBCLC Practice',
+  title: 'List Your Lactation Consultant Practice',
   description:
-    'Add your practice to IBCLCDirectory.com. Free listing available. Pro ($79/year) and Verified ($129/year) listings get full profiles, contact forms, and priority placement.',
+    'Add your practice to LactationConsultantDirectory.com. Free listing available. Pro ($79/year) and Verified ($129/year) listings get full profiles, contact forms, and priority placement.',
 }
 
 const PRICING_TIERS = [
@@ -66,10 +66,10 @@ export default function SubmitPage() {
       {/* Hero */}
       <div className="text-center mb-12">
         <h1 className="font-serif text-4xl font-bold text-charcoal-800">
-          List Your Practice on IBCLCDirectory.com
+          List Your Practice on LactationConsultantDirectory.com
         </h1>
         <p className="mt-4 text-lg text-charcoal-500 max-w-2xl mx-auto">
-          The only nationwide directory built for private-practice IBCLCs. Free to list.
+          The only nationwide directory built for private-practice lactation consultants. Free to list.
           One new client from a Pro listing pays for the year — twice.
         </p>
       </div>

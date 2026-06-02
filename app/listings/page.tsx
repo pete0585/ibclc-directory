@@ -45,8 +45,8 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const city = params.city ?? parsed.city
   const specialty = params.specialty
 
-  let title = 'Find an IBCLC Near You'
-  let description = 'Search the nationwide IBCLC directory. Filter by state, city, insurance, visit type, and specialty.'
+  let title = 'Find a Lactation Consultant Near You'
+  let description = 'Search the nationwide lactation consultant directory. Filter by state, city, insurance, visit type, and specialty.'
 
   if (city && state) {
     title = `IBCLCs in ${city}, ${state}`

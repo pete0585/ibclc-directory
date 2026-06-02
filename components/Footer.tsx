@@ -26,15 +26,15 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">For Families</h3>
             <ul className="space-y-2.5">
-              <li><Link href="/listings" className="text-sm text-charcoal-200 hover:text-white transition-colors">Find an IBCLC</Link></li>
-              <li><Link href="/resources/what-is-an-ibclc" className="text-sm text-charcoal-200 hover:text-white transition-colors">What is an IBCLC?</Link></li>
-              <li><Link href="/listings?visitType=virtual" className="text-sm text-charcoal-200 hover:text-white transition-colors">Telehealth IBCLCs</Link></li>
-              <li><Link href="/listings?visitType=home" className="text-sm text-charcoal-200 hover:text-white transition-colors">Home Visit IBCLCs</Link></li>
+              <li><Link href="/listings" className="text-sm text-charcoal-200 hover:text-white transition-colors">Find a Lactation Consultant</Link></li>
+              <li><Link href="/resources/what-is-an-ibclc" className="text-sm text-charcoal-200 hover:text-white transition-colors">What is a Lactation Consultant?</Link></li>
+              <li><Link href="/listings?visitType=virtual" className="text-sm text-charcoal-200 hover:text-white transition-colors">Telehealth Consultants</Link></li>
+              <li><Link href="/listings?visitType=home" className="text-sm text-charcoal-200 hover:text-white transition-colors">Home Visit Consultants</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">For IBCLCs</h3>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">For Practitioners</h3>
             <ul className="space-y-2.5">
               <li><Link href="/submit" className="text-sm text-charcoal-200 hover:text-white transition-colors">List Your Practice</Link></li>
               <li><Link href="/submit#pricing" className="text-sm text-charcoal-200 hover:text-white transition-colors">Pricing</Link></li>

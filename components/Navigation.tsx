@@ -25,7 +25,7 @@ export default function Navigation() {
               Find a Lactation Consultant
             </Link>
             <Link href="/resources/what-is-an-ibclc" className="text-sm font-medium text-charcoal-400 hover:text-charcoal-700 transition-colors">
-              What is an IBCLC?
+              What is a Lactation Consultant?
             </Link>
             <Link href="/submit" className="text-sm font-medium text-charcoal-400 hover:text-charcoal-700 transition-colors">
               List Your Practice
@@ -58,7 +58,7 @@ export default function Navigation() {
               className="block px-4 py-2.5 text-sm font-medium text-charcoal-600 hover:bg-ivory-100 rounded-lg"
               onClick={() => setMobileOpen(false)}
             >
-              What is an IBCLC?
+              What is a Lactation Consultant?
             </Link>
             <Link
               href="/submit"

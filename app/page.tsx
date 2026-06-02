@@ -6,9 +6,9 @@ import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getActiveCities, getTotalListingCount } from '@/lib/data'
 
 export const metadata: Metadata = {
-  title: 'Find an IBCLC Near You | IBCLCDirectory.com',
+  title: 'Find a Lactation Consultant Near You | LactationConsultantDirectory.com',
   description:
-    'Find a board-certified IBCLC (lactation consultant) near you. Search by city, insurance, or specialty. Free to search. Real support for breastfeeding families.',
+    'Find a board-certified lactation consultant near you. Search by city, insurance, or specialty. Free to search. Real support for breastfeeding families.',
 }
 
 const TOP_CITIES = [
@@ -32,7 +32,7 @@ const SPECIALTY_HIGHLIGHTS = [
   { label: 'Twins & Multiples', href: '/listings?specialty=Twins+%2F+Multiples', emoji: '👶' },
   { label: 'Low Milk Supply', href: '/listings?specialty=Low+Milk+Supply', emoji: '🍼' },
   { label: 'Pumping & Returning to Work', href: '/listings?specialty=Pumping+%2F+Exclusive+Pumping', emoji: '⏰' },
-  { label: 'Telehealth IBCLCs', href: '/listings?telehealth=true', emoji: '💻' },
+  { label: 'Telehealth Consultants', href: '/listings?telehealth=true', emoji: '💻' },
 ]
 
 export default async function HomePage() {
@@ -48,12 +48,12 @@ export default async function HomePage() {
         <div className="mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-rose-50 border border-rose-100 px-4 py-2 text-sm text-rose-500 mb-6">
             <Heart className="h-4 w-4 fill-rose-300 text-rose-300" />
-            <span>{listingCount.toLocaleString()} board-certified IBCLCs in the US</span>
+            <span>{listingCount.toLocaleString()} board-certified lactation consultants (IBCLCs) in the US</span>
           </div>
 
           <h1 className="font-serif text-4xl font-bold text-charcoal-800 leading-tight sm:text-5xl md:text-6xl text-balance">
             Find the breastfeeding support{' '}
-            <span className="text-sage-400">you deserve</span>
+            <span className="text-amber-500">you deserve</span>
           </h1>
 
           <p className="mt-5 text-lg text-charcoal-500 max-w-2xl mx-auto leading-relaxed">
@@ -138,7 +138,7 @@ export default async function HomePage() {
           <div className="text-center mb-10">
             <h2 className="section-heading">What brings you here?</h2>
             <p className="section-subheading">
-              Find an IBCLC who specializes in your specific situation.
+              Find a lactation consultant who specializes in your specific situation.
             </p>
           </div>
 
@@ -165,7 +165,7 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="section-heading">Featured IBCLCs</h2>
+                <h2 className="section-heading">Featured Lactation Consultants</h2>
                 <p className="section-subheading">Verified, experienced, and ready to help.</p>
               </div>
               <Link
@@ -184,7 +184,7 @@ export default async function HomePage() {
 
             <div className="mt-6 text-center sm:hidden">
               <Link href="/listings" className="btn-secondary">
-                View all IBCLCs <ArrowRight className="h-4 w-4" />
+                View all Lactation Consultants <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -196,7 +196,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-10">
             <h2 className="section-heading">Search by City</h2>
-            <p className="section-subheading">IBCLCs serving families across the country.</p>
+            <p className="section-subheading">Lactation consultants serving families across the country.</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -229,10 +229,10 @@ export default async function HomePage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-sage-300">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-serif text-3xl font-bold text-white mb-4">
-            Are you an IBCLC in private practice?
+            Are you a lactation consultant in private practice?
           </h2>
           <p className="text-sage-50 text-lg mb-8 leading-relaxed">
-            Get a free listing on the only nationwide directory built specifically for IBCLCs.
+            Get a free listing on the only nationwide directory built for lactation consultants.
             Pro listings start at $79/year — one new client pays for it twice over.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -266,7 +266,7 @@ export default async function HomePage() {
             </span>
             <span className="flex items-center gap-2">
               <Star className="h-4 w-4 text-sage-400" />
-              IBCLCs only — no uncredentialed LCs
+              IBCLC-certified only
             </span>
           </div>
         </div>

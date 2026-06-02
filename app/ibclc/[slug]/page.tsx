@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const listing = await getListingBySlug(slug)
 
   if (!listing) {
-    return { title: 'IBCLC Not Found' }
+    return { title: 'Lactation Consultant Not Found' }
   }
 
   const title = `${listing.name}, IBCLC in ${listing.city}, ${listing.state}`
@@ -76,7 +76,7 @@ export default async function ListingPage({ params }: Props) {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: process.env.NEXT_PUBLIC_SITE_URL },
-        { '@type': 'ListItem', position: 2, name: 'Find an IBCLC', item: `${process.env.NEXT_PUBLIC_SITE_URL}/listings` },
+        { '@type': 'ListItem', position: 2, name: 'Find a Lactation Consultant', item: `${process.env.NEXT_PUBLIC_SITE_URL}/listings` },
         {
           '@type': 'ListItem',
           position: 3,
