@@ -54,8 +54,8 @@ export default function Footer() {
           <p className="text-xs text-charcoal-300">
             © {currentYear} IBCLCDirectory.com. All rights reserved.
           </p>
-          <p className="text-xs text-charcoal-300">
-            Not affiliated with IBLCE, ILCA, or USLCA.
+          <p className="text-xs text-charcoal-400 max-w-2xl leading-relaxed">
+            IBCLCDirectory.com is an independent directory and is not affiliated with, endorsed by, or sponsored by IBLCE or the IBCLC Commission. IBCLC and International Board Certified Lactation Consultant are certification marks of the International Board of Lactation Consultant Examiners, used here only to identify professionals who hold that credential.
           </p>
         </div>
       </div>

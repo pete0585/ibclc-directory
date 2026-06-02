@@ -17,14 +17,14 @@ const config: Config = {
           300: '#EDE0CA',
         },
         sage: {
-          DEFAULT: '#8FAF8A',
-          50: '#F2F6F1',
-          100: '#D8E8D6',
-          200: '#B8D3B4',
-          300: '#8FAF8A',
-          400: '#6E9468',
-          500: '#537A4D',
-          600: '#3F5E3B',
+          DEFAULT: '#C9883C',
+          50: '#FBF5EC',
+          100: '#F5E3C5',
+          200: '#ECC99A',
+          300: '#E2AE6E',
+          400: '#D89850',
+          500: '#C9883C',
+          600: '#A06829',
         },
         rose: {
           DEFAULT: '#E8A898',
@@ -55,7 +55,7 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-ivory': 'linear-gradient(135deg, #FAF7F2 0%, #F4EDE0 100%)',
-        'gradient-sage': 'linear-gradient(135deg, #D8E8D6 0%, #8FAF8A 100%)',
+        'gradient-sage': 'linear-gradient(135deg, #F5E3C5 0%, #C9883C 100%)',
       },
       boxShadow: {
         soft: '0 2px 16px rgba(61,53,53,0.06)',
