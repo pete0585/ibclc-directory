@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const token = crypto.randomBytes(32).toString('hex')
-    const expiresAt = new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString()
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
 
     const { error: claimError } = await supabase.from('ibclc_claims').insert({
       listing_id: listingId,
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create claim' }, { status: 500 })
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibclcdirectory.com'
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lactationconsultantdirectory.com'
     const claimUrl = `${siteUrl}/api/claim/verify?token=${token}`
 
     if (process.env.RESEND_API_KEY) {
@@ -54,12 +54,12 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           from: process.env.RESEND_FROM_EMAIL ?? 'Lactation Consultant Directory <hello@mail.lactationconsultantdirectory.com>',
           to: email,
-          subject: `Claim your LactationConsultantDirectory.com listing: ${listing.name}`,
+          subject: `Claim your listing on LactationConsultantDirectory.com: ${listing.name}`,
           html: `
             <p>Hi there,</p>
             <p>Click the link below to verify and claim your listing on LactationConsultantDirectory.com:</p>
-            <p><a href="${claimUrl}" style="color:#8FAF8A;font-weight:bold;">Claim my listing</a></p>
-            <p>This link expires in 72 hours.</p>
+            <p><a href="${claimUrl}" style="color:#C9883C;font-weight:bold;">Claim my listing</a></p>
+            <p>This link expires in 30 days.</p>
             <p>If you didn't request this, you can safely ignore this email.</p>
           `,
         }),
