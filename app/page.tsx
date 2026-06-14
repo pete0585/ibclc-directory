@@ -5,6 +5,8 @@ import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getActiveCities, getTotalListingCount } from '@/lib/data'
 
+export const dynamic = "force-dynamic"
+
 export const metadata: Metadata = {
   title: 'Find a Lactation Consultant Near You | LactationConsultantDirectory.com',
   description:
