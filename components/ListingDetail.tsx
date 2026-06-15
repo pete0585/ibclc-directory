@@ -9,11 +9,13 @@ import { formatPhone, stateAbbreviationToName } from '@/lib/utils'
 
 interface ListingDetailProps {
   listing: Listing
+  monthlyViews?: number
 }
 
-export default function ListingDetail({ listing }: ListingDetailProps) {
+export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDetailProps) {
   const isVerified = listing.plan_tier === 'verified'
   const isPro = listing.plan_tier === 'pro' || isVerified
+  const isClaimed = listing.claimed === true
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -93,7 +95,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
                 {listing.city}, {stateAbbreviationToName(listing.state)}
                 {listing.zip && ` ${listing.zip}`}
               </span>
-              {listing.phone && (
+              {isClaimed && listing.phone && (
                 <a
                   href={`tel:${listing.phone}`}
                   className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
@@ -102,7 +104,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
                   {formatPhone(listing.phone)}
                 </a>
               )}
-              {listing.website && (
+              {isClaimed && listing.website && (
                 <a
                   href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
                   target="_blank"
@@ -116,6 +118,21 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
             </div>
           </div>
         </div>
+
+        {/* Gate: phone/website/bio for unclaimed */}
+        {!isClaimed && (
+          <div className='mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
+            <p className='text-sm text-gray-500'>
+              Phone, website, and bio are only visible after this provider claims their listing.
+            </p>
+            <a
+              href={`/claim/${listing.id}`}
+              className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'
+            >
+              Is this you? Claim your free profile →
+            </a>
+          </div>
+        )}
 
         {/* Quick info chips */}
         <div className="mt-6 flex flex-wrap gap-2">
@@ -146,7 +163,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
         </div>
 
         {/* Bio */}
-        {listing.bio && (
+        {isClaimed && listing.bio && (
           <div className="mt-8">
             <h2 className="font-serif text-xl font-semibold text-charcoal-700 mb-3">About</h2>
             <p className="text-sm leading-relaxed text-charcoal-600 whitespace-pre-line">
@@ -185,6 +202,23 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
             </div>
           )}
         </div>
+
+        {/* Stats block for claimed listings */}
+        {isClaimed && (
+          <div className='mt-8 mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4'>
+            <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
+            <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
+            <p className='text-sm text-blue-700'>people viewed your profile this month</p>
+            {listing.plan_tier === 'free' && (
+              <p className='mt-2 text-xs text-blue-600'>
+                0 could contact you.{' '}
+                <a href={`/claim/${listing.id}?upgrade=true`} className='underline font-medium'>
+                  Upgrade to be reachable →
+                </a>
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Contact CTA */}
         {isPro && (

@@ -26,6 +26,17 @@ export async function POST(request: NextRequest) {
 
   const supabase = await createServiceClient()
 
+  // Return 200 for event types we don't handle — prevents Stripe retry loops
+  // from cross-account events (e.g. Substack subscription events hitting directory webhooks)
+  const HANDLED_EVENTS = new Set([
+    'checkout.session.completed',
+    'customer.subscription.deleted',
+    'invoice.payment_failed',
+  ])
+  if (!HANDLED_EVENTS.has(event.type)) {
+    return NextResponse.json({ received: true })
+  }
+
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session

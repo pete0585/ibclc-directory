@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getListingBySlug } from '@/lib/data'
+import { createClient } from '@/lib/supabase/server'
 import ListingDetail from '@/components/ListingDetail'
+import { ViewTracker } from '@/components/ViewTracker'
 import { stateAbbreviationToName } from '@/lib/utils'
 
 interface Props {
@@ -42,6 +44,16 @@ export default async function ListingPage({ params }: Props) {
   if (!listing) {
     notFound()
   }
+
+  const supabase = await createClient()
+  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+  const { count: viewCount } = await supabase
+    .from('listing_views')
+    .select('*', { count: 'exact', head: true })
+    .eq('directory_slug', 'ibclc')
+    .eq('listing_id', String(listing.id))
+    .gte('viewed_at', monthStart)
+  const monthlyViews = viewCount ?? 0
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -99,7 +111,8 @@ export default async function ListingPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ListingDetail listing={listing} />
+      <ViewTracker listingId={String(listing.id)} directorySlug='ibclc' />
+      <ListingDetail listing={listing} monthlyViews={monthlyViews} />
     </>
   )
 }
