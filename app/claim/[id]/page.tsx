@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
 import { CheckCircle, Loader2, ShieldCheck, Star } from 'lucide-react'
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 
 type Step = 'email' | 'verifying' | 'verified' | 'upgrade' | 'error'
 
@@ -15,12 +16,30 @@ export default function ClaimPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [listingName, setListingName] = useState<string>('')
+  const [monthlyViews, setMonthlyViews] = useState(0)
 
   useEffect(() => {
-    if (searchParams.get('verified') === 'true') {
+    if (searchParams.get('verified') === 'true' || searchParams.get('upgrade') === 'true') {
       setStep('upgrade')
     }
   }, [searchParams])
+
+  useEffect(() => {
+    if (step === 'upgrade' && params.id) {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      )
+      const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+      supabase
+        .from('listing_views')
+        .select('*', { count: 'exact', head: true })
+        .eq('directory_slug', 'ibclc')
+        .eq('listing_id', params.id)
+        .gte('viewed_at', monthStart)
+        .then(({ count }) => setMonthlyViews(count ?? 0))
+    }
+  }, [step, params.id])
 
   async function sendClaimEmail(e: React.FormEvent) {
     e.preventDefault()
@@ -94,16 +113,38 @@ export default function ClaimPage() {
   if (step === 'upgrade') {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-100 mx-auto mb-5">
             <CheckCircle className="h-8 w-8 text-sage-500" />
           </div>
           <h1 className="font-serif text-2xl font-bold text-charcoal-800 mb-2">
             Listing claimed!
           </h1>
-          <p className="text-charcoal-500">
-            Your listing is live. Upgrade to show your full profile and get more clients.
-          </p>
+        </div>
+
+        <div className='text-center mb-6'>
+          <div className='text-5xl font-bold text-gray-900'>{monthlyViews}</div>
+          <div className='text-gray-500 mt-1'>people viewed your profile this month</div>
+          <div className='mt-3 text-red-600 font-semibold'>
+            0 could contact you — your phone and website are hidden
+          </div>
+        </div>
+
+        <div className='space-y-3 mb-8 text-left'>
+          {[
+            ['Your phone number visible to searchers', 'They can call you directly from your listing'],
+            ['Your website linked', 'Drive traffic to your practice site'],
+            ['Your full bio displayed', 'Build trust before they reach out'],
+            ['Verified badge', 'Stand out from unclaimed profiles'],
+          ].map(([title, sub]) => (
+            <div key={title} className='flex items-start gap-3'>
+              <span className='text-green-500 text-lg leading-tight'>✓</span>
+              <div>
+                <div className='font-medium text-gray-900'>{title}</div>
+                <div className='text-sm text-gray-500'>{sub}</div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
