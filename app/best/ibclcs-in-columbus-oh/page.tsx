@@ -60,7 +60,7 @@ export default async function BestIbclcsColumbusPage() {
       },
       {
         '@type': 'Question',
-        name: 'Does Nationwide Children's Hospital have lactation consultants?',
+        name: "Does Nationwide Children's Hospital have lactation consultants?",
         acceptedAnswer: {
           '@type': 'Answer',
           text: "Yes. Nationwide Children's Hospital has a highly regarded NICU lactation program that supports premature infants and complex feeding cases. For families not in the NICU, IBCLCs at OhioHealth Riverside, Mount Carmel, and OhioHealth Dublin Methodist support postpartum breastfeeding. Private IBCLCs listed in this directory supplement hospital-based care with in-home and telehealth visits.",
