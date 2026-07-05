@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import {
   MapPin, Phone, Globe, Video, Home, Building2, ShieldCheck,
-  Star, CheckCircle, Mail, Clock, Languages, Heart,
+  Star, CheckCircle, Mail, Clock, Languages, Heart, MessageSquare,
 } from 'lucide-react'
 import type { Listing } from '@/types'
 import { formatPhone, stateAbbreviationToName } from '@/lib/utils'
@@ -23,7 +23,7 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
       <nav className="mb-6 flex items-center gap-2 text-sm text-charcoal-400">
         <Link href="/" className="hover:text-charcoal-700">Home</Link>
         <span>/</span>
-        <Link href="/listings" className="hover:text-charcoal-700">Find an IBCLC</Link>
+        <Link href="/listings" className="hover:text-charcoal-700">Find a Lactation Consultant</Link>
         <span>/</span>
         <Link
           href={`/find/${listing.state.toLowerCase()}/${listing.city.toLowerCase().replace(/\s+/g, '-')}-${listing.state.toLowerCase()}`}
@@ -39,7 +39,7 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
         {/* Header */}
         <div className="flex flex-col sm:flex-row gap-6">
           <div className="shrink-0">
-            {listing.photo_url ? (
+            {isClaimed && listing.photo_url ? (
               <div className="relative h-28 w-28 rounded-2xl overflow-hidden bg-ivory-200 shadow-soft">
                 <Image
                   src={listing.photo_url}
@@ -115,15 +115,24 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
                   Website
                 </a>
               )}
+              {isClaimed && listing.email && (
+                <a
+                  href={`mailto:${listing.email}`}
+                  className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
+                >
+                  <Mail className="h-4 w-4 text-sage-400" />
+                  Email
+                </a>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Gate: phone/website/bio for unclaimed */}
+        {/* Gate: contact info for unclaimed listings */}
         {!isClaimed && (
           <div className='mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
             <p className='text-sm text-gray-500'>
-              Phone, website, and bio are only visible after this provider claims their listing.
+              Phone, website, and contact info are only visible after this provider claims their listing.
             </p>
             <a
               href={`/claim/${listing.id}`}
@@ -220,8 +229,40 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
           </div>
         )}
 
-        {/* Contact CTA */}
-        {isPro && (
+        {/* Inquiry form for verified (featured) tier */}
+        {isVerified && (
+          <div className="mt-8 rounded-2xl bg-rose-50 border border-rose-200 p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <MessageSquare className="h-5 w-5 text-rose-500" />
+              <h3 className="font-serif text-base font-semibold text-charcoal-700">
+                Contact {listing.name.split(' ')[0]}
+              </h3>
+            </div>
+            <p className="text-sm text-charcoal-500 mb-4">
+              Reach out directly to schedule a consultation.
+            </p>
+            {listing.website ? (
+              <a
+                href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-rose inline-flex text-sm py-2.5"
+              >
+                Visit Website to Book
+              </a>
+            ) : listing.email ? (
+              <a
+                href={`mailto:${listing.email}`}
+                className="btn-rose inline-flex text-sm py-2.5"
+              >
+                Send Email
+              </a>
+            ) : null}
+          </div>
+        )}
+
+        {/* Contact CTA for pro (non-verified) */}
+        {isPro && !isVerified && (
           <div className="mt-8 rounded-2xl bg-ivory-100 border border-ivory-300 p-6">
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100 shrink-0">
