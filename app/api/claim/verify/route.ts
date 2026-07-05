@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       .eq('id', claim.id),
     supabase
       .from('ibclc_listings')
-      .update({ claimed: true, claimed_at: new Date().toISOString() })
+      .update({ claimed: true, claimed_at: new Date().toISOString(), status: 'active' })
       .eq('id', claim.listing_id),
   ])
 
