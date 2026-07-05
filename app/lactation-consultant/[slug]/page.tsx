@@ -6,6 +6,8 @@ import ListingDetail from '@/components/ListingDetail'
 import { ViewTracker } from '@/components/ViewTracker'
 import { stateAbbreviationToName } from '@/lib/utils'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: Promise<{ slug: string }>
 }
@@ -18,10 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Lactation Consultant Not Found' }
   }
 
-  const title = `${listing.name}, IBCLC in ${listing.city}, ${listing.state}`
+  const title = `${listing.name} — Lactation Consultant in ${listing.city}, ${listing.state}`
   const description = listing.bio
     ? `${listing.bio.slice(0, 155).trim()}…`
-    : `Find ${listing.name}, IBCLC in ${listing.city}, ${stateAbbreviationToName(listing.state)}. ${listing.telehealth ? 'Telehealth available. ' : ''}${listing.accepting_new_clients ? 'Accepting new clients.' : ''}`
+    : `Find ${listing.name}, lactation consultant in ${listing.city}, ${stateAbbreviationToName(listing.state)}. ${listing.telehealth ? 'Telehealth available. ' : ''}${listing.accepting_new_clients ? 'Accepting new clients.' : ''}`
 
   return {
     title,
@@ -99,7 +101,7 @@ export default async function ListingPage({ params }: Props) {
           '@type': 'ListItem',
           position: 4,
           name: listing.name,
-          item: `${process.env.NEXT_PUBLIC_SITE_URL}/ibclc/${listing.slug}`,
+          item: `${process.env.NEXT_PUBLIC_SITE_URL}/lactation-consultant/${listing.slug}`,
         },
       ],
     },
