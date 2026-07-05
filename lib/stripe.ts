@@ -5,24 +5,32 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 export const PLAN_PRICE_IDS = {
-  pro: process.env.STRIPE_PRO_PRICE_ID!,
-  verified: process.env.STRIPE_VERIFIED_PRICE_ID!,
+  pro: {
+    monthly: process.env.STRIPE_PRO_MONTHLY_PRICE_ID!,
+    annual: process.env.STRIPE_PRO_ANNUAL_PRICE_ID!,
+  },
+  verified: {
+    monthly: process.env.STRIPE_VERIFIED_MONTHLY_PRICE_ID!,
+    annual: process.env.STRIPE_VERIFIED_ANNUAL_PRICE_ID!,
+  },
 }
 
 export async function createCheckoutSession({
   listingId,
   planTier,
+  billing,
   customerEmail,
   successUrl,
   cancelUrl,
 }: {
   listingId: string
   planTier: 'pro' | 'verified'
+  billing: 'monthly' | 'annual'
   customerEmail?: string
   successUrl: string
   cancelUrl: string
 }) {
-  const priceId = PLAN_PRICE_IDS[planTier]
+  const priceId = PLAN_PRICE_IDS[planTier][billing]
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',

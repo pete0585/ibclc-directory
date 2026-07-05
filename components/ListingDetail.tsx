@@ -95,7 +95,7 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
                 {listing.city}, {stateAbbreviationToName(listing.state)}
                 {listing.zip && ` ${listing.zip}`}
               </span>
-              {isClaimed && listing.phone && (
+              {isPro && listing.phone && (
                 <a
                   href={`tel:${listing.phone}`}
                   className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
@@ -104,7 +104,7 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
                   {formatPhone(listing.phone)}
                 </a>
               )}
-              {isClaimed && listing.website && (
+              {isPro && listing.website && (
                 <a
                   href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
                   target="_blank"
@@ -115,7 +115,7 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
                   Website
                 </a>
               )}
-              {isClaimed && listing.email && (
+              {isPro && listing.email && (
                 <a
                   href={`mailto:${listing.email}`}
                   className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
@@ -139,6 +139,24 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
               className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'
             >
               Is this you? Claim your free profile →
+            </a>
+          </div>
+        )}
+
+        {/* Gate: contact info hidden for claimed-free listings */}
+        {isClaimed && !isPro && (
+          <div className='mt-6 rounded-lg border border-sage-200 bg-sage-50 p-4 text-center'>
+            <p className='text-sm font-medium text-charcoal-700 mb-1'>
+              Contact info is hidden on free listings
+            </p>
+            <p className='text-sm text-charcoal-500 mb-2'>
+              Upgrade to Pro to show your phone, website, and email to every parent who finds you.
+            </p>
+            <a
+              href={`/claim/${listing.id}?verified=true`}
+              className='mt-1 inline-block text-sm font-semibold text-sage-600 hover:text-sage-700 underline'
+            >
+              Upgrade to Pro — $29/month →
             </a>
           </div>
         )}

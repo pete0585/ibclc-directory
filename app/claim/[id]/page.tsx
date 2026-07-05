@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
 
 type Step = 'email' | 'verifying' | 'verified' | 'upgrade' | 'error'
+type Billing = 'monthly' | 'annual'
 
 export default function ClaimPage() {
   const params = useParams<{ id: string }>()
@@ -17,6 +18,7 @@ export default function ClaimPage() {
   const [error, setError] = useState<string | null>(null)
   const [listingName, setListingName] = useState<string>('')
   const [monthlyViews, setMonthlyViews] = useState(0)
+  const [billing, setBilling] = useState<Billing>('monthly')
 
   useEffect(() => {
     if (searchParams.get('verified') === 'true' || searchParams.get('upgrade') === 'true') {
@@ -69,7 +71,7 @@ export default function ClaimPage() {
       const res = await fetch('/api/upgrade', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listingId: params.id, tier }),
+        body: JSON.stringify({ listingId: params.id, tier, billing }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create checkout session')
@@ -147,14 +149,44 @@ export default function ClaimPage() {
           ))}
         </div>
 
+        {/* Billing toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex rounded-full border border-charcoal-200 bg-ivory-50 p-1 text-sm">
+            <button
+              onClick={() => setBilling('monthly')}
+              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
+                billing === 'monthly'
+                  ? 'bg-charcoal-800 text-white'
+                  : 'text-charcoal-500 hover:text-charcoal-700'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBilling('annual')}
+              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
+                billing === 'annual'
+                  ? 'bg-charcoal-800 text-white'
+                  : 'text-charcoal-500 hover:text-charcoal-700'
+              }`}
+            >
+              Annual <span className="text-xs font-normal opacity-75">save 17%</span>
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="card p-6 border border-sage-200">
             <div className="flex items-center gap-2 mb-3">
               <Star className="h-5 w-5 text-sage-500" />
               <span className="font-semibold text-charcoal-700">Pro Listing</span>
             </div>
-            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$79<span className="text-base font-normal text-charcoal-400">/year</span></p>
-            <p className="text-sm text-charcoal-500 mb-4">Photo, bio, specialties, contact form, priority placement.</p>
+            {billing === 'monthly' ? (
+              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$29<span className="text-base font-normal text-charcoal-400">/month</span></p>
+            ) : (
+              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$290<span className="text-base font-normal text-charcoal-400">/year</span></p>
+            )}
+            <p className="text-sm text-charcoal-500 mb-4">Phone, website, and email visible. Photo, bio, priority placement.</p>
             <button
               onClick={() => upgradeToProOrVerified('pro')}
               disabled={loading}
@@ -167,9 +199,13 @@ export default function ClaimPage() {
           <div className="card p-6 border-2 border-rose-200 bg-rose-50/50">
             <div className="flex items-center gap-2 mb-3">
               <ShieldCheck className="h-5 w-5 text-rose-400" />
-              <span className="font-semibold text-charcoal-700">Verified IBCLC</span>
+              <span className="font-semibold text-charcoal-700">Verified</span>
             </div>
-            <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$129<span className="text-base font-normal text-charcoal-400">/year</span></p>
+            {billing === 'monthly' ? (
+              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$49<span className="text-base font-normal text-charcoal-400">/month</span></p>
+            ) : (
+              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$490<span className="text-base font-normal text-charcoal-400">/year</span></p>
+            )}
             <p className="text-sm text-charcoal-500 mb-4">Everything in Pro + credential verification, top placement.</p>
             <button
               onClick={() => upgradeToProOrVerified('verified')}

@@ -4,7 +4,7 @@ import { createCheckoutSession } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
-    const { listingId, tier } = await request.json()
+    const { listingId, tier, billing = 'monthly' } = await request.json()
 
     if (!listingId || !['pro', 'verified'].includes(tier)) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
@@ -22,11 +22,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ibclcdirectory.com'
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://lactationconsultantdirectory.com'
 
     const session = await createCheckoutSession({
       listingId,
       planTier: tier,
+      billing: billing === 'annual' ? 'annual' : 'monthly',
       customerEmail: listing.email ?? undefined,
       successUrl: `${siteUrl}/claim/${listingId}?upgraded=true&tier=${tier}`,
       cancelUrl: `${siteUrl}/claim/${listingId}`,
