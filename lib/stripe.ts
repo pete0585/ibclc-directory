@@ -22,6 +22,7 @@ export async function createCheckoutSession({
   customerEmail,
   successUrl,
   cancelUrl,
+  couponId,
 }: {
   listingId: string
   planTier: 'pro' | 'verified'
@@ -29,13 +30,17 @@ export async function createCheckoutSession({
   customerEmail?: string
   successUrl: string
   cancelUrl: string
+  couponId?: string
 }) {
   const priceId = PLAN_PRICE_IDS[planTier][billing]
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     line_items: [{ price: priceId, quantity: 1 }],
-    allow_promotion_codes: true,
+    // allow_promotion_codes and discounts are mutually exclusive in Stripe
+    ...(couponId
+      ? { discounts: [{ coupon: couponId }] }
+      : { allow_promotion_codes: true }),
     customer_email: customerEmail,
     success_url: successUrl,
     cancel_url: cancelUrl,
