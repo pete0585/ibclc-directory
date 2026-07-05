@@ -6,6 +6,9 @@ import ListingDetail from '@/components/ListingDetail'
 import { ViewTracker } from '@/components/ViewTracker'
 import { stateAbbreviationToName } from '@/lib/utils'
 
+// Force dynamic rendering so plan_tier changes (payments) reflect immediately
+export const dynamic = 'force-dynamic'
+
 export const dynamic = 'force-dynamic'
 
 interface Props {
