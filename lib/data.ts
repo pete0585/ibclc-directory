@@ -1,13 +1,13 @@
-import { createClient } from './supabase/server'
+import { createClient, createServiceClient } from './supabase/server'
 import type { Listing, City } from '@/types'
 
 export async function getListingBySlug(slug: string): Promise<Listing | null> {
-  const supabase = await createClient()
+  const supabase = await createServiceClient()
   const { data } = await supabase
     .from('ibclc_listings')
     .select('*')
     .eq('slug', slug)
-    .eq('status', 'active')
+    .neq('status', 'suspended')
     .single()
   return data
 }
@@ -166,4 +166,3 @@ export async function getActiveStates(): Promise<string[]> {
   const states = Array.from(new Set((data ?? []).map((r: { state: string }) => r.state))).sort()
   return states
 }
-
