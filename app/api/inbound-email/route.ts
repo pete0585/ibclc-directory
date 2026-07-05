@@ -4,6 +4,11 @@ import { createServiceClient } from '@/lib/supabase/server'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Domain(s) this handler owns. Resend webhooks are global — all inbound domains fire every
+// configured webhook endpoint. Only process emails addressed to our domains to prevent
+// duplicate rows when the menopause-directory webhook also fires for the same email.
+const OWNED_DOMAINS = ['lactationconsultantdirectory.com', 'ibclcdirectory.com']
+
 function parseFromHeader(raw: string): { email: string; name: string | null } {
   const match = raw.match(/<([^>]+)>/)
   if (match) {
@@ -14,6 +19,47 @@ function parseFromHeader(raw: string): { email: string; name: string | null } {
   return { email: raw.toLowerCase().trim(), name: null }
 }
 
+// Fetch email body from Resend with exponential backoff.
+// Resend webhooks are notification-only — body is not included. The API may not have
+// indexed the body yet when the webhook fires (race condition). Retry up to 3 times.
+async function fetchEmailBodyWithRetry(
+  emailId: string,
+  maxAttempts = 3,
+  baseDelayMs = 2000,
+): Promise<{ text: string; html: string; error: string | null }> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const { data: email, error } = await resend.emails.receiving.get(emailId)
+      if (error) {
+        if (attempt < maxAttempts) {
+          await new Promise(r => setTimeout(r, baseDelayMs * attempt))
+          continue
+        }
+        return { text: '', html: '', error: error.message }
+      }
+      if (email) {
+        const e = email as Record<string, unknown>
+        const text = typeof e.text === 'string' ? e.text : ''
+        const html = typeof e.html === 'string' ? e.html : ''
+        if (text || html) return { text, html, error: null }
+      }
+      // Got response but body empty — may not be indexed yet
+      if (attempt < maxAttempts) {
+        await new Promise(r => setTimeout(r, baseDelayMs * attempt))
+        continue
+      }
+      return { text: '', html: '', error: 'Body empty after all retries' }
+    } catch (err) {
+      if (attempt < maxAttempts) {
+        await new Promise(r => setTimeout(r, baseDelayMs * attempt))
+        continue
+      }
+      return { text: '', html: '', error: err instanceof Error ? err.message : String(err) }
+    }
+  }
+  return { text: '', html: '', error: 'Max retries reached' }
+}
+
 export async function POST(request: NextRequest) {
   let payload: Record<string, unknown>
   try {
@@ -22,10 +68,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  // Resend delivers inbound webhooks via Svix:
-  // { type: "email.received", data: { email_id, from, to, subject, message_id, ... } }
-  // IMPORTANT: webhook payload does NOT include body text/html — must be fetched separately
-  // via resend.emails.receiving.get(email_id) per Resend API docs.
   if (payload.type !== 'email.received' || !payload.data || typeof payload.data !== 'object') {
     return NextResponse.json({ received: true, skipped: 'not email.received' })
   }
@@ -38,6 +80,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Missing email_id' }, { status: 400 })
   }
 
+  const toAddress = Array.isArray(eventData.to)
+    ? (eventData.to as string[]).join(', ')
+    : String(eventData.to ?? '')
+
+  // Domain filter — only process emails addressed to our domains
+  const toAddressLower = toAddress.toLowerCase()
+  const isOurEmail = OWNED_DOMAINS.some(d => toAddressLower.includes(d))
+  if (!isOurEmail) {
+    return NextResponse.json({ received: true, skipped: 'not-our-domain' })
+  }
+
   const fromRaw = String(eventData.from ?? '')
   if (!fromRaw) {
     return NextResponse.json({ error: 'Missing from address' }, { status: 400 })
@@ -45,41 +98,24 @@ export async function POST(request: NextRequest) {
 
   const { email: fromEmail, name: fromName } = parseFromHeader(fromRaw)
   const subject = String(eventData.subject ?? '')
-  const toAddress = Array.isArray(eventData.to)
-    ? (eventData.to as string[]).join(', ')
-    : String(eventData.to ?? '')
   const messageId = String(eventData.message_id ?? '') || null
 
-  // Fetch full email body from Resend API.
-  // The webhook is a notification-only event — body text/html requires a separate retrieve call.
-  let bodyText = ''
-  let bodyHtml = ''
-  let fetchError: string | null = null
+  // Fetch full email body — webhook payload never includes body text.
+  // email_id is stored regardless so inbox-watcher can backfill if body is still empty.
+  const { text: bodyText, html: bodyHtml, error: fetchError } = await fetchEmailBodyWithRetry(resendEmailId)
 
-  try {
-    const { data: email, error } = await resend.emails.receiving.get(resendEmailId)
-    if (error) {
-      fetchError = `Resend retrieve error: ${error.message}`
-      console.error('[inbound-email] Failed to retrieve email body:', fetchError, 'email_id:', resendEmailId)
-    } else if (email) {
-      bodyText = (email as Record<string, unknown>).text as string ?? ''
-      bodyHtml = (email as Record<string, unknown>).html as string ?? ''
-    }
-  } catch (err) {
-    fetchError = err instanceof Error ? err.message : String(err)
-    console.error('[inbound-email] Exception retrieving email body:', fetchError, 'email_id:', resendEmailId)
+  if (fetchError) {
+    console.warn('[inbound-email] Body fetch failed after retries:', fetchError, 'email_id:', resendEmailId)
   }
 
   const supabase = await createServiceClient()
 
-  // Match sender to a listing by email for context
   const { data: listing } = await supabase
     .from('ibclc_listings')
     .select('id, slug')
     .eq('email', fromEmail)
     .maybeSingle()
 
-  // Always insert even if body fetch failed — email_id is stored so body can be retried
   await supabase.from('inbound_emails').insert({
     directory: 'ibclc',
     email_id: resendEmailId,
@@ -94,10 +130,6 @@ export async function POST(request: NextRequest) {
     listing_slug: listing?.slug ?? null,
     processed: false,
   })
-
-  if (fetchError) {
-    console.warn('[inbound-email] Row inserted with empty body (fetch failed). email_id:', resendEmailId)
-  }
 
   return NextResponse.json({ received: true })
 }
