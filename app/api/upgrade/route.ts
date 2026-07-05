@@ -4,7 +4,7 @@ import { createCheckoutSession } from '@/lib/stripe'
 
 export async function POST(request: NextRequest) {
   try {
-    const { listingId, tier, billing = 'monthly' } = await request.json()
+    const { listingId, tier, billing = 'monthly', couponId } = await request.json()
 
     if (!listingId || !['pro', 'verified'].includes(tier)) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
       customerEmail: listing.email ?? undefined,
       successUrl: `${siteUrl}/claim/${listingId}?upgraded=true&tier=${tier}`,
       cancelUrl: `${siteUrl}/claim/${listingId}`,
+      couponId: typeof couponId === 'string' && couponId.length > 0 ? couponId : undefined,
     })
 
     return NextResponse.json({ url: session.url })
