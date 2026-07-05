@@ -71,7 +71,7 @@ export default function ClaimPage() {
       const res = await fetch('/api/upgrade', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listingId: params.id, tier, billing }),
+        body: JSON.stringify({ listingId: params.id, tier, billing, ...(searchParams.get('founding') === 'true' ? { couponId: 'R6vSpeEL' } : {}) }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create checkout session')
