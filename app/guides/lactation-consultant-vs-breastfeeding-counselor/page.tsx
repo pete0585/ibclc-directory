@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/guides/lactation-consultant-vs-breastfeeding-counselor' },
   title: 'IBCLC vs Breastfeeding Counselor: What Is the Difference? | LactationConsultantDirectory.com',
   description:
     'IBCLCs are clinical providers with 300–1,000 hours of supervised practice and a board exam. Breastfeeding counselors and peer supporters have different training and scope. Know who to call for what.',
