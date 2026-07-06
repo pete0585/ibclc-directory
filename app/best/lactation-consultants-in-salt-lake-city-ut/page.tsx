@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/lactation-consultants-in-salt-lake-city-ut' },
   title: 'Find a Lactation Consultant in Salt Lake City, UT | Lactation Consultant Directory',
   description:
     'Find board-certified IBCLCs and lactation consultants in Salt Lake City, Utah. Serving Murray, West Jordan, Sandy, and the Salt Lake metro. Insurance accepted. Home visits and telehealth available.',
