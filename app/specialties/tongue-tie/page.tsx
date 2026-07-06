@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/tongue-tie' },
   title: 'IBCLCs Who Specialize in Tongue Tie | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in tongue tie and lip tie assessment, frenotomy aftercare, and breastfeeding recovery. These lactation consultants have specific experience with tethered oral tissues.',
