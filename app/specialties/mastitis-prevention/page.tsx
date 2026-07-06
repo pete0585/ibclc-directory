@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/mastitis-prevention' },
   title: 'IBCLCs Who Help with Mastitis Prevention | LactationConsultantDirectory.com',
   description:
     'Find an IBCLC who specializes in mastitis prevention, plugged ducts, and breast infections. Early intervention with a lactation consultant is the most effective way to prevent mastitis from recurring.',
