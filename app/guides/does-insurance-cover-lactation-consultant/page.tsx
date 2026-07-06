@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/guides/does-insurance-cover-lactation-consultant' },
   title: 'Does Insurance Cover a Lactation Consultant? (ACA Coverage Guide) | LactationConsultantDirectory.com',
   description:
     'The ACA requires most insurance plans to cover IBCLC visits at no cost to you. Here is what that means in practice — and what to do if your plan pushes back.',
