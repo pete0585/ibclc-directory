@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, Clock, CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/first-ibclc-visit' },
   title: "What to Expect at Your First IBCLC Visit | LactationConsultantDirectory.com",
   description:
     "Nervous about your first lactation consultant appointment? Here's exactly what happens — what to bring, how long it takes, what the IBCLC will assess, and what you'll leave with.",
