@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/insurance' },
   title: 'IBCLCs Who Accept Insurance | IBCLCDirectory.com',
   description:
     'Find an IBCLC who accepts your insurance — Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare, Tricare, and Medicaid. The ACA requires most plans to cover lactation support.',
