@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-miami-fl' },
   title: 'Best IBCLCs in Miami, FL | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Miami, Florida. IBCLCs in Miami-Dade serving Coral Gables, Kendall, North Miami, and the broader South Florida area. Spanish-speaking options available.',
