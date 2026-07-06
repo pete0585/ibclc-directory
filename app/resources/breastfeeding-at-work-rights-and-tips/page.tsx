@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/breastfeeding-at-work-rights-and-tips' },
   title: 'Breastfeeding at Work: Your Rights and Practical Tips | IBCLCDirectory.com',
   description:
     "Returning to work while breastfeeding is one of the hardest transitions new parents face. Know your legal rights under the PUMP Act and get practical tips for making it work.",
