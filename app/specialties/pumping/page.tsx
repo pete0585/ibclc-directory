@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/pumping' },
   title: 'IBCLCs for Pumping & Exclusive Pumping | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in pumping support, exclusive pumping, returning to work, and building a freezer stash. Expert guidance for the pump as a primary feeding tool.',
