@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-richmond-va' },
   title: 'Best IBCLCs in Richmond, VA | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Richmond, Virginia. IBCLCs across the Richmond metro — Short Pump, Midlothian, Henrico, and Chesterfield. Insurance accepted. Telehealth available.',
