@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-kansas-city-mo' },
   title: 'Find a Lactation Consultant (IBCLC) in Kansas City, MO | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in Kansas City, Missouri and Kansas. IBCLCs serving both sides of the state line — Overland Park, Lenexa, Lee\'s Summit, and beyond. Insurance accepted.',
