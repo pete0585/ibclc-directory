@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/newborn-weight-loss-when-to-call-ibclc' },
   title: 'Newborn Weight Loss: When to Call an IBCLC | IBCLCDirectory.com',
   description:
     'All newborns lose weight after birth. But how much is too much — and when should you call an IBCLC? Here\'s what the clinical thresholds actually mean.',
