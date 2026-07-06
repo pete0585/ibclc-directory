@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/twins-and-multiples' },
   title: 'IBCLCs Specializing in Twins and Multiples | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in breastfeeding twins or multiples. Tandem nursing, supply management for two, positioning support, and supplementation planning.',
