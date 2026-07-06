@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-tampa-fl' },
   title: 'Best IBCLCs in Tampa, FL | IBCLCDirectory.com',
   description:
     "Find the best lactation consultants in Tampa, Florida. Verified IBCLCs in Tampa who offer home visits, telehealth, and accept most insurance. 14+ listed in the Tampa Bay metro.",
