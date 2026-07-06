@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/breastfeeding-in-public-rights' },
   title: 'Breastfeeding in Public: Your Legal Rights in All 50 States | IBCLCDirectory.com',
   description:
     'Know your rights. All 50 states protect breastfeeding in public as of 2026. Federal law also covers workplace pumping under the PUMP Act (2023). Full state-by-state guide.',
