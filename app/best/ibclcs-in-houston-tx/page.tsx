@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-houston-tx' },
   title: 'Best IBCLCs in Houston, TX | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Houston, Texas. IBCLCs across the Houston metro — The Woodlands, Sugar Land, Katy, and more. Insurance accepted. Telehealth and home visits available.',
