@@ -26,9 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `${listing.bio.slice(0, 155).trim()}…`
     : `Find ${listing.name}, lactation consultant in ${listing.city}, ${stateAbbreviationToName(listing.state)}. ${listing.telehealth ? 'Telehealth available. ' : ''}${listing.accepting_new_clients ? 'Accepting new clients.' : ''}`
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
   return {
     title,
     description,
+    alternates: {
+      canonical: `${siteUrl}/lactation-consultant/${slug}`,
+    },
     openGraph: {
       title,
       description,
