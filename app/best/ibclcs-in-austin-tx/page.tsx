@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-austin-tx' },
   title: 'Best IBCLCs in Austin, TX | IBCLCDirectory.com',
   description:
     'Find the best lactation consultants in Austin, Texas. Verified IBCLCs in Austin who offer home visits, telehealth, and accept most insurance. 12+ listed in the Austin metro.',
