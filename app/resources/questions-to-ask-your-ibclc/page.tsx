@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/questions-to-ask-your-ibclc' },
   title: 'Questions to Ask Your IBCLC | IBCLCDirectory.com',
   description:
     'Get more from your lactation consultation. Here are the questions that lead to actionable answers — before your first appointment and at every follow-up.',
