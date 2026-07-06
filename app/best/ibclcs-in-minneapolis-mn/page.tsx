@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-minneapolis-mn' },
   title: 'Find a Lactation Consultant (IBCLC) in Minneapolis, MN | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Minneapolis, MN and the Twin Cities metro. IBCLCs across Minneapolis, Saint Paul, and surrounding suburbs. Insurance accepted. Telehealth available.',
