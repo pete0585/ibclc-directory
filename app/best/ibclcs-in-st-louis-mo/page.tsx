@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-st-louis-mo' },
   title: 'Find a Lactation Consultant (IBCLC) in St. Louis, MO | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in St. Louis, Missouri. IBCLCs serving the St. Louis metro — Clayton, Chesterfield, Kirkwood, and St. Charles County. Insurance accepted. Telehealth available.',
