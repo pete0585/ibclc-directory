@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/solid-food-introduction' },
   title: 'IBCLCs Who Help with Solid Food Introduction | LactationConsultantDirectory.com',
   description:
     'Starting solids while breastfeeding? Find a lactation consultant who specializes in baby-led weaning, purees, and the transition to solids without disrupting milk supply.',
