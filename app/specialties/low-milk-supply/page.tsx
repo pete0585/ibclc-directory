@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/low-milk-supply' },
   title: 'IBCLCs Who Specialize in Low Milk Supply | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in low milk supply, milk production concerns, and supplementation strategies. Real clinical expertise for one of breastfeeding\'s most common and devastating challenges.',
