@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/bottle-refusal' },
   title: 'IBCLCs Specializing in Bottle Refusal | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in bottle refusal. Get help with paced bottle feeding, nipple flow matching, and transition strategies when your baby refuses a bottle.',
