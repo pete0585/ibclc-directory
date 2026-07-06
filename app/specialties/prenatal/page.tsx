@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/prenatal' },
   title: 'Prenatal IBCLC Consultations | IBCLCDirectory.com',
   description:
     'Meet with an IBCLC before your baby arrives. Prenatal lactation consultations prepare you for breastfeeding before challenges arise — especially with a history of supply issues, previous surgery, or multiples.',
