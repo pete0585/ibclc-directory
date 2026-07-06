@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/nicu-lactation-support' },
   title: 'NICU Lactation Support: IBCLCs Who Specialize in Premature Infants | LactationConsultantDirectory.com',
   description:
     'Find IBCLCs who specialize in NICU lactation support — premature infants, tube-to-breast transition, and post-NICU discharge care. Establishing and maintaining supply during a NICU stay requires specialized expertise.',
