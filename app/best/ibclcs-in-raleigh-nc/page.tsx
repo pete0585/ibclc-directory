@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-raleigh-nc' },
   title: 'Find a Lactation Consultant (IBCLC) in Raleigh, NC | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in Raleigh, North Carolina. IBCLCs serving the Research Triangle — Durham, Chapel Hill, Cary, and beyond. Insurance accepted. Telehealth available.',
