@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/nicu-support' },
   title: 'IBCLCs for NICU and Premature Infants | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in NICU and premature infant breastfeeding. Build supply while your baby is in the NICU, transition from tube feeds to breast, and support a preemie latch.',
