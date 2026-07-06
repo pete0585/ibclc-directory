@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/relactation' },
   title: 'IBCLCs for Relactation — Rebuilding Milk Supply | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in relactation. Whether you stopped breastfeeding weeks or months ago, or you are an adoptive parent inducing lactation, an experienced IBCLC can help.',
