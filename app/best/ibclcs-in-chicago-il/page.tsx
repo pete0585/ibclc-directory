@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-chicago-il' },
   title: 'Best IBCLCs in Chicago, IL | IBCLCDirectory.com',
   description:
     "Find the best lactation consultants in Chicago, Illinois. Verified IBCLCs in Chicago who offer home visits, telehealth, and accept most insurance. 8+ listed in the Chicago metro.",
