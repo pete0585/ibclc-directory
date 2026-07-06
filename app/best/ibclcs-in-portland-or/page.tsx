@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-portland-or' },
   title: 'Best IBCLCs in Portland, OR | IBCLCDirectory.com',
   description:
     "Find the best lactation consultants in Portland, Oregon. Verified IBCLCs in Portland who offer home visits, telehealth, and accept most insurance. 13+ listed in the Portland metro.",
