@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-los-angeles-ca' },
   title: 'Best IBCLCs in Los Angeles, CA | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Los Angeles, California. Verified IBCLCs in LA who offer home visits, telehealth, and accept most insurance. 20+ listed in the LA metro.',
