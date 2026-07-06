@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/weaning' },
   title: 'IBCLCs for Weaning Support | IBCLCDirectory.com',
   description:
     'Find an IBCLC who specializes in weaning. Whether you are weaning a toddler or stopping breastfeeding earlier than planned, an IBCLC can guide the process safely.',
