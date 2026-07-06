@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-columbus-oh' },
   title: 'Find a Lactation Consultant (IBCLC) in Columbus, OH | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in Columbus, Ohio. IBCLCs serving the Columbus metro — Dublin, Westerville, Hilliard, and surrounding communities. Insurance accepted. Home visits available.',
