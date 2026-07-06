@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-phoenix-az' },
   title: 'Best IBCLCs in Phoenix, AZ | IBCLCDirectory.com',
   description:
     "Find the best lactation consultants in Phoenix, Arizona. Verified IBCLCs in Phoenix who offer home visits, telehealth, and accept most insurance. 6+ listed in the Phoenix metro.",
