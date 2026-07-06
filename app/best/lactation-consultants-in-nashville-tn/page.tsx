@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/lactation-consultants-in-nashville-tn' },
   title: 'Find a Lactation Consultant in Nashville, TN | Lactation Consultant Directory',
   description:
     'Find board-certified IBCLCs and lactation consultants in Nashville, Tennessee. Serving Brentwood, Franklin, Murfreesboro, and the Nashville metro. Insurance accepted. Home visits and telehealth available.',
