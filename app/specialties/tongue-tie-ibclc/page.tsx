@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/specialties/tongue-tie-ibclc' },
   title: 'Find an IBCLC Specializing in Tongue-Tie | Lactation Consultant Directory',
   description:
     'Find a lactation consultant who specializes in tongue-tie assessment, frenotomy aftercare, and breastfeeding recovery after ankyloglossia. IBCLC tongue-tie expertise nationwide.',
