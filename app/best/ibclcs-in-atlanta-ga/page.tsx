@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-atlanta-ga' },
   title: 'Best IBCLCs in Atlanta, GA | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Atlanta, Georgia. IBCLCs across metro Atlanta — Buckhead, Decatur, Midtown, Sandy Springs, and beyond. Insurance accepted. Telehealth available.',
