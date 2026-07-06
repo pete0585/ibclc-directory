@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/how-to-choose-an-ibclc' },
   title: 'How to Choose an IBCLC: Questions to Ask Before You Book | IBCLCDirectory.com',
   description:
     'Not all IBCLCs are the same. Here\'s how to find one who\'s the right fit for your situation — what to look for, what to ask, and what red flags to watch for.',
