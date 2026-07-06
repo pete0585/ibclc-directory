@@ -23,11 +23,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = cityPage?.meta_description ??
     `Find board-certified lactation consultants (IBCLCs) in ${cityName}, ${stateName}. Real breastfeeding support — home visits, telehealth, and insurance accepted.`
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
   return {
     title,
     description,
+    alternates: {
+      canonical: `${siteUrl}/find/${state}/${city}`,
+    },
     openGraph: {
-      title: `${title} | IBCLCDirectory.com`,
+      title: `${title} | LactationConsultantDirectory.com`,
       description,
     },
   }
