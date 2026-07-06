@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ShieldCheck, Heart, Search, ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/what-is-an-ibclc' },
   title: 'What Is an IBCLC? Why It Matters for Your Breastfeeding Journey',
   description:
     'An IBCLC (International Board Certified Lactation Consultant) holds the gold-standard credential in breastfeeding care. Learn what sets them apart and why it matters for your baby.',
