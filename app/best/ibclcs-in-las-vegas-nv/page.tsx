@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-las-vegas-nv' },
   title: 'Find a Lactation Consultant (IBCLC) in Las Vegas, NV | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in Las Vegas, Nevada. IBCLCs serving the Las Vegas Valley — Henderson, Summerlin, North Las Vegas, and surrounding areas. Insurance accepted. Telehealth available.',
