@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, Home, Video } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/home-visit-vs-telehealth' },
   title: 'Home Visit vs. Telehealth Lactation Consultation: Which Is Right for You? | IBCLCDirectory.com',
   description:
     'Comparing home visit IBCLCs vs. telehealth lactation consultants. Both work — but they\'re right for different situations. Here\'s how to choose.',
