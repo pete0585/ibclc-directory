@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-louisville-ky' },
   title: 'Find a Lactation Consultant (IBCLC) in Louisville, KY | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in Louisville, Kentucky. IBCLCs across the Louisville metro — Jeffersontown, St. Matthews, Shively, and beyond. Insurance accepted. Telehealth available.',
