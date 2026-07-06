@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-san-diego-ca' },
   title: 'Best IBCLCs in San Diego, CA | IBCLCDirectory.com',
   description:
     'Find the best lactation consultants in San Diego, California. Verified IBCLCs serving San Diego County — home visits, telehealth, and most insurance accepted.',
