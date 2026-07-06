@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/guides/how-much-does-a-lactation-consultant-cost' },
   title: 'How Much Does a Lactation Consultant Cost? (2026 Price Guide) | LactationConsultantDirectory.com',
   description:
     'Lactation consultant costs range from $100–$300 per visit depending on credentials, visit type, and your location. Learn what affects pricing and what insurance covers.',
