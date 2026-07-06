@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-indianapolis-in' },
   title: 'Find a Lactation Consultant (IBCLC) in Indianapolis, IN | LactationConsultantDirectory.com',
   description:
     'Find board-certified lactation consultants in Indianapolis, Indiana. IBCLCs serving the Indianapolis metro — Carmel, Fishers, Westfield, and surrounding communities. Insurance accepted. Home visits available.',
