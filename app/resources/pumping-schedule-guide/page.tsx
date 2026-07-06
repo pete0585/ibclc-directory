@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/pumping-schedule-guide' },
   title: 'Pumping Schedule Guide for Breastfeeding Moms | LactationConsultantDirectory.com',
   description:
     'How often should you pump? A practical pumping schedule guide for working moms, exclusive pumpers, and moms building a freezer stash — backed by IBCLC expertise.',
