@@ -4,6 +4,7 @@ import { ArrowRight, MapPin } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/best/ibclcs-in-new-york-ny' },
   title: 'Best IBCLCs in New York, NY | IBCLCDirectory.com',
   description:
     'Find board-certified lactation consultants in New York City. IBCLCs in Manhattan, Brooklyn, Queens, the Bronx, and surrounding areas. Telehealth and home visits available.',
