@@ -16,9 +16,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateUpper = state.toUpperCase()
   const stateName = stateAbbreviationToName(stateUpper)
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
   return {
     title: `Find an IBCLC in ${stateName}`,
     description: `Find board-certified lactation consultants (IBCLCs) in ${stateName}. Search by city, filter by insurance accepted, home visits, or telehealth. Real breastfeeding support near you.`,
+    alternates: {
+      canonical: `${siteUrl}/find/${state}`,
+    },
     openGraph: {
       title: `IBCLCs in ${stateName} | IBCLCDirectory.com`,
       description: `Find a lactation consultant in ${stateName} who takes your insurance and offers home or telehealth visits.`,
