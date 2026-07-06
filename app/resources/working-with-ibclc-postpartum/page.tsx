@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/resources/working-with-ibclc-postpartum' },
   title: 'Working with an IBCLC After Leaving the Hospital | Guide',
   description:
     'What to expect from a private IBCLC appointment after hospital discharge. How postpartum lactation support differs from in-hospital care — and why most families still need it.',
