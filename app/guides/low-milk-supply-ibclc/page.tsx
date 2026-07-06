@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.lactationconsultantdirectory.com/guides/low-milk-supply-ibclc' },
   title: 'Low Milk Supply: When to Call an IBCLC | LactationConsultantDirectory.com',
   description:
     'Low milk supply is the most common reason mothers stop breastfeeding — but perceived low supply is even more common. An IBCLC can tell the difference and help. Here is when to call.',
