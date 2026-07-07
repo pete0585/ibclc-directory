@@ -30,6 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    // Unclaimed listings are noindexed: thin template content, no real bio, high duplication risk.
+    // Claimed listings default to index,follow (undefined = Next.js default).
+    robots: listing.claimed ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/lactation-consultant/${slug}`,
     },
@@ -119,6 +122,22 @@ export default async function ListingPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ViewTracker listingId={String(listing.id)} directorySlug='ibclc' />
+      {!listing.claimed && (
+        <div className="mx-auto mt-4 max-w-2xl rounded-lg border border-yellow-400 bg-yellow-50 px-4 py-3 text-center">
+          <p className="mb-1 font-semibold text-yellow-800">
+            This listing isn&apos;t visible in Google search.
+          </p>
+          <p className="mb-3 text-sm text-yellow-700">
+            Claim your profile to appear when parents search for a lactation consultant in {listing.city}.
+          </p>
+          <a
+            href={`/claim/${listing.slug}`}
+            className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            Claim your profile →
+          </a>
+        </div>
+      )}
       <ListingDetail listing={listing} monthlyViews={monthlyViews} />
     </>
   )
