@@ -45,6 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .from('ibclc_listings')
       .select('slug, updated_at')
       .eq('status', 'active')
+      .eq('claimed', true)          // Only claimed listings in sitemap — unclaimed are noindexed
       .order('updated_at', { ascending: false }),
     supabase
       .from('ibclc_cities')
@@ -79,6 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   // CANONICAL: /lactation-consultant/[slug] — NOT the /ibclc/ redirect URLs
+  // Only claimed listings are indexed; unclaimed get robots: noindex on their page
   const listingPages: MetadataRoute.Sitemap = listings.map((listing) => ({
     url: `${siteUrl}/lactation-consultant/${listing.slug}`,
     lastModified: listing.updated_at ? new Date(listing.updated_at) : new Date(),
