@@ -61,7 +61,7 @@ export default async function LactationConsultantsBostonPage() {
       },
       {
         '@type': 'Question',
-        name: 'What lactation support is available at Brigham and Women's Hospital?',
+        name: "What lactation support is available at Brigham and Women's Hospital?",
         acceptedAnswer: {
           '@type': 'Answer',
           text: "Brigham and Women\'s Hospital has one of the most active inpatient IBCLC programs in New England, with IBCLCs available 7 days a week on the Labor & Delivery and Mother-Baby units. Beth Israel Deaconess Medical Center and Newton-Wellesley Hospital also have inpatient IBCLCs. After discharge, most Boston-area hospital IBCLCs recommend follow-up with private-practice IBCLCs for the individualized, longer appointments that inpatient visits can\'t provide.",
