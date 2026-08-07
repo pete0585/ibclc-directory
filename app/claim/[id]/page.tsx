@@ -96,7 +96,7 @@ export default function ClaimPage() {
         </h1>
         <p className="text-charcoal-500">
           We sent a verification link to <strong>{email}</strong>. Click it to confirm you own{' '}
-          <strong>{listingName}</strong>. The link expires in 72 hours.
+          <strong>{listingName}</strong>. The link expires in 30 days.
         </p>
         <p className="mt-4 text-sm text-charcoal-400">
           Didn't get it? Check your spam folder, or{' '}
