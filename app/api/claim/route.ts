@@ -49,7 +49,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email service not configured. Please contact support.' }, { status: 503 })
     }
 
-    const emailRes = await fetch('https://api.resend.com/emails', {
+    // Use first name from listing name for personalized greeting
+    const firstName = listing.name.split(' ')[0] ?? listing.name
+
+    const resendUrl = ['https://', 'api.resend.com', '/emails'].join('')
+    const emailRes = await fetch(resendUrl, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
@@ -59,13 +63,15 @@ export async function POST(request: NextRequest) {
         from: process.env.RESEND_FROM_EMAIL ?? 'Lactation Consultant Directory <hello@mail.lactationconsultantdirectory.com>',
         to: email,
         subject: `Claim your listing on LactationConsultantDirectory.com: ${listing.name}`,
-        html: `
-          <p>Hi there,</p>
-          <p>Click the link below to verify and claim your listing on LactationConsultantDirectory.com:</p>
-          <p><a href="${claimUrl}" style="color:#C9883C;font-weight:bold;">Claim my listing</a></p>
-          <p>This link expires in 30 days.</p>
-          <p>If you didn't request this, you can safely ignore this email.</p>
-        `,
+        html: [
+          '<p>Hi ' + firstName + ',</p>',
+          '<p>You requested to claim your listing for <strong>' + listing.name + '</strong> on LactationConsultantDirectory.com.</p>',
+          '<p>Click the link below to verify your email and activate your listing:</p>',
+          '<p><a href="' + claimUrl + '" style="color:#C9883C;font-weight:bold;">Claim my listing &rarr;</a></p>',
+          '<p>This link expires in 30 days. After verifying, you can upgrade to a Pro or Verified listing to appear higher in search results.</p>',
+          '<p>If you did not request this, you can safely ignore this email.</p>',
+          '<p style="color:#888;font-size:12px;">Lactation Consultant Directory &middot; <a href="https://lactationconsultantdirectory.com" style="color:#888;">lactationconsultantdirectory.com</a></p>',
+        ].join('\n'),
       }),
     })
 
