@@ -56,6 +56,12 @@ export default async function ListingPage({ params }: Props) {
   }
 
   const supabase = await createClient()
+
+  // Auth check: profile activity widget is private analytics — only show to the
+  // authenticated listing owner (or admin). Anonymous visitors never see view counts.
+  const { data: { user } } = await supabase.auth.getUser()
+  const isOwner = !!user && listing.claimed && user.email === listing.email
+
   const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
   const { count: viewCount } = await supabase
     .from('listing_views')
@@ -63,7 +69,11 @@ export default async function ListingPage({ params }: Props) {
     .eq('directory_slug', 'ibclc')
     .eq('listing_id', String(listing.id))
     .gte('viewed_at', monthStart)
-  const monthlyViews = viewCount ?? 0
+  const monthlyViews = isOwner ? (viewCount ?? 0) : 0
+
+  // Telephone and website URL only belong in JSON-LD for paid (pro/verified) listings.
+  // Leaking these on unclaimed profiles undermines the upgrade incentive and privacy gate.
+  const isPaidListing = listing.claimed && (listing.plan_tier === 'pro' || listing.plan_tier === 'verified')
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -71,8 +81,8 @@ export default async function ListingPage({ params }: Props) {
     name: listing.name,
     description: listing.bio ?? undefined,
     image: listing.photo_url ?? undefined,
-    telephone: listing.phone ?? undefined,
-    url: listing.website ?? undefined,
+    telephone: isPaidListing ? (listing.phone ?? undefined) : undefined,
+    url: isPaidListing ? (listing.website ?? undefined) : undefined,
     address: {
       '@type': 'PostalAddress',
       addressLocality: listing.city,
@@ -138,7 +148,7 @@ export default async function ListingPage({ params }: Props) {
           </a>
         </div>
       )}
-      <ListingDetail listing={listing} monthlyViews={monthlyViews} />
+      <ListingDetail listing={listing} monthlyViews={monthlyViews} isOwner={isOwner} />
     </>
   )
 }

@@ -31,7 +31,7 @@ async function fetchEmailBody(
         continue
       }
       if (email) {
-        const rec = email as Record<string, unknown>
+        const rec = email as unknown as Record<string, unknown>
         const text = String(rec.text ?? '')
         const html = String(rec.html ?? '')
         if (text || html) return { text, html, error: null }
