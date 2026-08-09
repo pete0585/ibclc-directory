@@ -6,13 +6,15 @@ import {
 } from 'lucide-react'
 import type { Listing } from '@/types'
 import { formatPhone, stateAbbreviationToName } from '@/lib/utils'
+import { PatientLeadForm } from '@/components/PatientLeadForm'
 
 interface ListingDetailProps {
   listing: Listing
   monthlyViews?: number
+  isOwner?: boolean
 }
 
-export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDetailProps) {
+export default function ListingDetail({ listing, monthlyViews = 0, isOwner = false }: ListingDetailProps) {
   const isVerified = listing.plan_tier === 'verified'
   const isPro = listing.plan_tier === 'pro' || isVerified
   const isClaimed = listing.claimed === true
@@ -230,8 +232,8 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
           )}
         </div>
 
-        {/* Stats block for claimed listings */}
-        {isClaimed && (
+        {/* Stats block — private analytics, only visible to the authenticated listing owner */}
+        {isOwner && isClaimed && (
           <div className='mt-8 mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4'>
             <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
             <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
@@ -306,6 +308,16 @@ export default function ListingDetail({ listing, monthlyViews = 0 }: ListingDeta
               </div>
             </div>
           </div>
+        )}
+
+        {/* Patient lead capture — unclaimed or free listings can't be contacted directly */}
+        {(!listing.claimed || listing.plan_tier === 'free') && (
+          <PatientLeadForm
+            listingId={String(listing.id)}
+            providerName={listing.name}
+            city={listing.city}
+            state={listing.state}
+          />
         )}
 
         {/* Unclaimed CTA */}

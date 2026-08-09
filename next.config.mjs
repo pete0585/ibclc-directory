@@ -13,6 +13,13 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Canonical www redirect — non-www → www (308 preserves method for POST)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'lactationconsultantdirectory.com' }],
+        destination: 'https://www.lactationconsultantdirectory.com/:path*',
+        permanent: true,
+      },
       {
         source: '/ibclc/:slug',
         destination: '/lactation-consultant/:slug',
