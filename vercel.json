@@ -4,6 +4,14 @@
   "devCommand": "next dev",
   "installCommand": "npm install",
   "regions": ["iad1"],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "header", "key": "host", "value": "ibclcdirectory.com" }],
+      "destination": "https://lactationconsultantdirectory.com/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/webhooks/stripe",
