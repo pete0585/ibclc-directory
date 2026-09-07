@@ -2,7 +2,10 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lactationconsultantdirectory.com"
+
 export const metadata: Metadata = {
+  alternates: { canonical: `${siteUrl}/best/lactation-consultants-in-philadelphia-pa` },
   title: "Best Lactation Consultant in Philadelphia, PA | Lactation Consultant Directory",
   description: "Find lactation consultant in Philadelphia, Pennsylvania. 12+ listed. Filter by city and compare providers.",
 }

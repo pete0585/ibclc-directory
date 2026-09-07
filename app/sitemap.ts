@@ -1,23 +1,30 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import type { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { US_STATES } from '@/types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
 
+export const runtime = 'nodejs'
 export const revalidate = 3600
 
-// Static page slug registry — update when seo-content agent adds new pages to the repo
-const BEST_OF_SLUGS = [
-  'ibclcs-in-atlanta-ga', 'ibclcs-in-austin-tx', 'ibclcs-in-chicago-il', 'ibclcs-in-columbus-oh',
-  'ibclcs-in-denver-co', 'ibclcs-in-houston-tx', 'ibclcs-in-indianapolis-in', 'ibclcs-in-kansas-city-mo',
-  'ibclcs-in-las-vegas-nv', 'ibclcs-in-los-angeles-ca', 'ibclcs-in-louisville-ky', 'ibclcs-in-miami-fl',
-  'ibclcs-in-minneapolis-mn', 'ibclcs-in-nashville-tn', 'ibclcs-in-new-york-ny', 'ibclcs-in-philadelphia-pa',
-  'ibclcs-in-phoenix-az', 'ibclcs-in-portland-or', 'ibclcs-in-raleigh-nc', 'ibclcs-in-richmond-va',
-  'ibclcs-in-san-antonio-tx', 'ibclcs-in-san-diego-ca', 'ibclcs-in-seattle-wa', 'ibclcs-in-st-louis-mo',
-  'ibclcs-in-tampa-fl', 'lactation-consultants-in-charlotte-nc', 'lactation-consultants-in-denver-co',
-  'lactation-consultants-in-minneapolis-mn', 'lactation-consultants-in-nashville-tn',
-  'lactation-consultants-in-richmond-va', 'lactation-consultants-in-salt-lake-city-ut',
-]
+// Static /best city pages: each subdirectory of app/best that contains page.tsx.
+function getStaticBestOfSlugs(): string[] {
+  const bestDir = path.join(process.cwd(), 'app/best')
+  if (!fs.existsSync(bestDir)) return []
+
+  return fs
+    .readdirSync(bestDir, { withFileTypes: true })
+    .filter((entry) => {
+      if (!entry.isDirectory()) return false
+      // Skip Next.js dynamic segments such as [city] or [...slug]
+      if (entry.name.startsWith('[')) return false
+      return fs.existsSync(path.join(bestDir, entry.name, 'page.tsx'))
+    })
+    .map((entry) => entry.name)
+    .sort()
+}
 
 const SPECIALTY_SLUGS = [
   'bottle-refusal', 'insurance', 'low-milk-supply', 'mastitis-prevention', 'nicu-lactation-support',
@@ -88,9 +95,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
-  const bestOfPages: MetadataRoute.Sitemap = BEST_OF_SLUGS.map((slug) => ({
+  const bestOfPages: MetadataRoute.Sitemap = getStaticBestOfSlugs().map((slug) => ({
     url: `${siteUrl}/best/${slug}`,
-    lastModified: new Date('2026-07-06'),
+    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }))
