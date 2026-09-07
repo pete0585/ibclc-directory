@@ -6,9 +6,10 @@ import { US_STATES } from '@/types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
 
+export const runtime = 'nodejs'
 export const revalidate = 3600
 
-/** Static /best/{slug} pages — discovered from app/best/*/page.tsx so new city pages are included automatically. */
+// Static /best city pages: each subdirectory of app/best that contains page.tsx.
 function getStaticBestOfSlugs(): string[] {
   const bestDir = path.join(process.cwd(), 'app/best')
   if (!fs.existsSync(bestDir)) return []
