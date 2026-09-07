@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Include static city page folders so sitemap.ts can discover them at runtime
+  experimental: {
+    outputFileTracingIncludes: {
+      '/sitemap.xml': ['./app/best/**/page.tsx'],
+    },
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
