@@ -2,7 +2,7 @@ import {notFound} from 'next/navigation'
 import Link from 'next/link'
 import type {Metadata} from 'next'
 import {article,articles,ArticleBody} from '@/lib/editorial-blog'
-const site="https://lactationconsultantdirectory.com"
+const site="https://www.lactationconsultantdirectory.com"
 export const dynamicParams=false
 export function generateStaticParams(){return articles().map(p=>({slug:p.slug}))}
 export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const p=article(slug);return p?{title:p.title,description:p.excerpt,alternates:{canonical:site+'/blog/'+p.slug},openGraph:{title:p.title,description:p.excerpt,type:'article',publishedTime:p.date,url:site+'/blog/'+p.slug}}:{}}
