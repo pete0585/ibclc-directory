@@ -62,9 +62,9 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         from: 'hello@ibclcdirectory.com',
         to: normalizedEmail,
-        subject: 'Welcome — your weekly IBCLC tips are coming',
+        subject: 'Welcome to IBCLCDirectory.com',
         html: `<p>Hi there,</p>
-<p>Thanks for signing up. Every week you'll get practical breastfeeding tips from IBCLCs, plus new listings near you.</p>
+<p>Thanks for signing up. Every week you'll get practical breastfeeding and infant feeding information, plus newly verified providers in the directory.</p>
 <p>No fluff. No spam. Just real support.</p>
 <p>— The IBCLCDirectory.com team</p>
 <p style="font-size:12px;color:#aaa;margin-top:32px;">You signed up at IBCLCDirectory.com. <a href="https://ibclcdirectory.com">Visit the directory</a>.</p>`,
