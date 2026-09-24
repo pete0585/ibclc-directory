@@ -54,13 +54,22 @@ export default async function HomePage() {
           </div>
 
           <h1 className="font-serif text-4xl font-bold text-charcoal-800 leading-tight sm:text-5xl md:text-6xl text-balance">
-            Find the breastfeeding support{' '}
-            <span className="text-amber-500">you deserve</span>
+            Find trusted lactation consultants near you
           </h1>
 
           <p className="mt-5 text-lg text-charcoal-500 max-w-2xl mx-auto leading-relaxed">
-            You shouldn't have to figure this out alone at 2am. Find a board-certified lactation
-            consultant who specializes in exactly what you're going through.
+            Browse verified IBCLCs by specialty, location, and availability — and connect directly. Free, always.
+          </p>
+          <p className="text-sm text-gray-500 mt-4">
+            Are you a IBCLC?{' '}
+            <a
+              href="https://studiozerohq.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-80"
+            >
+              List your practice free →
+            </a>
           </p>
 
           <div className="mt-8 flex justify-center">
