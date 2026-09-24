@@ -1,36 +1,26 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import {
-  MapPin, Phone, Globe, Video, Home, Building2, ShieldCheck,
-  Star, CheckCircle, Mail, Clock, Languages, Heart, MessageSquare,
-} from 'lucide-react'
-import type { Listing } from '@/types'
-import { formatPhone, stateAbbreviationToName } from '@/lib/utils'
-import { PatientLeadForm } from '@/components/PatientLeadForm'
-
+import Link from 'next/link';
+import Image from 'next/image';
+import { MapPin, Phone, Globe, Video, Home, Building2, ShieldCheck, Star, CheckCircle, Mail, Clock, Languages, Heart, MessageSquare, } from 'lucide-react';
+import type { Listing } from '@/types';
+import { formatPhone, stateAbbreviationToName } from '@/lib/utils';
+import { PatientLeadForm } from '@/components/PatientLeadForm';
 interface ListingDetailProps {
-  listing: Listing
-  monthlyViews?: number
-  isOwner?: boolean
+    listing: Listing;
+    monthlyViews?: number;
+    isOwner?: boolean;
 }
-
 export default function ListingDetail({ listing, monthlyViews = 0, isOwner = false }: ListingDetailProps) {
-  const isVerified = listing.plan_tier === 'verified'
-  const isPro = listing.plan_tier === 'pro' || isVerified
-  const isClaimed = listing.claimed === true
-
-  return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+    const isVerified = listing.plan_tier === 'verified';
+    const isPro = listing.plan_tier === 'pro' || isVerified;
+    const isClaimed = listing.claimed === true;
+    return (<div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center gap-2 text-sm text-charcoal-400">
         <Link href="/" className="hover:text-charcoal-700">Home</Link>
         <span>/</span>
         <Link href="/listings" className="hover:text-charcoal-700">Find a Lactation Consultant</Link>
         <span>/</span>
-        <Link
-          href={`/find/${listing.state.toLowerCase()}/${listing.city.toLowerCase().replace(/\s+/g, '-')}-${listing.state.toLowerCase()}`}
-          className="hover:text-charcoal-700"
-        >
+        <Link href={`/find/${listing.state.toLowerCase()}/${listing.city.toLowerCase().replace(/\s+/g, '-')}-${listing.state.toLowerCase()}`} className="hover:text-charcoal-700">
           {listing.city}, {listing.state}
         </Link>
         <span>/</span>
@@ -41,22 +31,11 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
         {/* Header */}
         <div className="flex flex-col sm:flex-row gap-6">
           <div className="shrink-0">
-            {isClaimed && listing.photo_url ? (
-              <div className="relative h-28 w-28 rounded-2xl overflow-hidden bg-ivory-200 shadow-soft">
-                <Image
-                  src={listing.photo_url}
-                  alt={listing.name}
-                  fill
-                  className="object-cover"
-                  sizes="112px"
-                  priority
-                />
-              </div>
-            ) : (
-              <div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-sage-100 text-4xl font-serif font-bold text-sage-400 shadow-soft">
+            {listing.photo_url ? (<div className="relative h-28 w-28 rounded-2xl overflow-hidden bg-ivory-200 shadow-soft">
+                <Image src={listing.photo_url} alt={listing.name} fill className="object-cover" sizes="112px" priority/>
+              </div>) : (<div className="flex h-28 w-28 items-center justify-center rounded-2xl bg-sage-100 text-4xl font-serif font-bold text-sage-400 shadow-soft">
                 {listing.name.charAt(0)}
-              </div>
-            )}
+              </div>)}
           </div>
 
           <div className="flex-1">
@@ -70,165 +49,110 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                {isVerified && (
-                  <span className="badge-verified text-sm px-3 py-1">
-                    <ShieldCheck className="h-4 w-4" />
-                    Verified IBCLC
-                  </span>
-                )}
-                {!isVerified && isPro && (
-                  <span className="badge-pro text-sm px-3 py-1">
-                    <Star className="h-4 w-4" />
-                    Pro Listing
-                  </span>
-                )}
-                {listing.accepting_new_clients && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-600">
-                    <CheckCircle className="h-4 w-4" />
+                {null}
+                {null}
+                {listing.accepting_new_clients && (<span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-600">
+                    <CheckCircle className="h-4 w-4"/>
                     Accepting new clients
-                  </span>
-                )}
+                  </span>)}
               </div>
             </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-charcoal-500">
               <span className="flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-rose-400" />
+                <MapPin className="h-4 w-4 text-rose-400"/>
                 {listing.city}, {stateAbbreviationToName(listing.state)}
                 {listing.zip && ` ${listing.zip}`}
               </span>
-              {listing.phone && (
-                <a
-                  href={`tel:${listing.phone}`}
-                  className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
-                >
-                  <Phone className="h-4 w-4 text-sage-400" />
+              {listing.phone && (<a href={`tel:${listing.phone}`} className="flex items-center gap-1.5 hover:text-sage-500 transition-colors">
+                  <Phone className="h-4 w-4 text-sage-400"/>
                   {formatPhone(listing.phone)}
-                </a>
-              )}
-              {listing.website && (
-                <a
-                  href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
-                >
-                  <Globe className="h-4 w-4 text-sage-400" />
+                </a>)}
+              {listing.website && (<a href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-sage-500 transition-colors">
+                  <Globe className="h-4 w-4 text-sage-400"/>
                   Website
-                </a>
-              )}
-              {listing.email && (
-                <a
-                  href={`mailto:${listing.email}`}
-                  className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
-                >
-                  <Mail className="h-4 w-4 text-sage-400" />
+                </a>)}
+              {listing.email && (<a href={`mailto:${listing.email}`} className="flex items-center gap-1.5 hover:text-sage-500 transition-colors">
+                  <Mail className="h-4 w-4 text-sage-400"/>
                   Email
-                </a>
-              )}
+                </a>)}
             </div>
           </div>
         </div>
 
         {/* Gate: contact info for unclaimed listings */}
-        {!isClaimed && (
-          <div className='mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
+        {!isClaimed && (<div className='mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
             <p className='text-sm text-gray-500'>
               Phone, website, and contact info are only visible after this provider claims their listing.
             </p>
-            <a
-              href={`/claim/${listing.id}`}
-              className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'
-            >
+            <a href={`/claim/${listing.id}`} className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'>
               Is this you? Claim your free profile →
             </a>
-          </div>
-        )}
+          </div>)}
 
         {/* Quick info chips */}
         <div className="mt-6 flex flex-wrap gap-2">
-          {listing.telehealth && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-sage-50 border border-sage-200 px-3 py-1.5 text-sm text-sage-700">
-              <Video className="h-4 w-4" />
+          {listing.telehealth && (<span className="inline-flex items-center gap-1.5 rounded-full bg-sage-50 border border-sage-200 px-3 py-1.5 text-sm text-sage-700">
+              <Video className="h-4 w-4"/>
               Telehealth available
-            </span>
-          )}
-          {listing.visit_types.includes('home') && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
-              <Home className="h-4 w-4" />
+            </span>)}
+          {listing.visit_types.includes('home') && (<span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
+              <Home className="h-4 w-4"/>
               Home visits
-            </span>
-          )}
-          {listing.visit_types.includes('office') && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
-              <Building2 className="h-4 w-4" />
+            </span>)}
+          {listing.visit_types.includes('office') && (<span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
+              <Building2 className="h-4 w-4"/>
               In-office
-            </span>
-          )}
-          {listing.languages.length > 0 && (
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
-              <Languages className="h-4 w-4" />
+            </span>)}
+          {listing.languages.length > 0 && (<span className="inline-flex items-center gap-1.5 rounded-full bg-ivory-100 border border-ivory-300 px-3 py-1.5 text-sm text-charcoal-600">
+              <Languages className="h-4 w-4"/>
               {listing.languages.join(', ')}
-            </span>
-          )}
+            </span>)}
         </div>
 
         {/* Bio */}
-        {isClaimed && listing.bio && (
-          <div className="mt-8">
+        {listing.bio && (<div className="mt-8">
             <h2 className="font-serif text-xl font-semibold text-charcoal-700 mb-3">About</h2>
             <p className="text-sm leading-relaxed text-charcoal-600 whitespace-pre-line">
               {listing.bio}
             </p>
-          </div>
-        )}
+          </div>)}
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {/* Specialties */}
-          {listing.specialties.length > 0 && (
-            <div>
+          {listing.specialties.length > 0 && (<div>
               <h2 className="font-serif text-lg font-semibold text-charcoal-700 mb-3">Specialties</h2>
               <div className="flex flex-wrap gap-2">
-                {listing.specialties.map((s) => (
-                  <span key={s} className="rounded-full bg-rose-50 border border-rose-100 px-3 py-1 text-sm text-rose-600">
+                {listing.specialties.map((s) => (<span key={s} className="rounded-full bg-rose-50 border border-rose-100 px-3 py-1 text-sm text-rose-600">
                     {s}
-                  </span>
-                ))}
+                  </span>))}
               </div>
-            </div>
-          )}
+            </div>)}
 
           {/* Insurance */}
-          {listing.insurance_accepted.length > 0 && (
-            <div>
+          {listing.insurance_accepted.length > 0 && (<div>
               <h2 className="font-serif text-lg font-semibold text-charcoal-700 mb-3">Insurance Accepted</h2>
               <ul className="space-y-1.5">
-                {listing.insurance_accepted.map((ins) => (
-                  <li key={ins} className="flex items-center gap-2 text-sm text-charcoal-600">
-                    <CheckCircle className="h-4 w-4 text-sage-400 shrink-0" />
+                {listing.insurance_accepted.map((ins) => (<li key={ins} className="flex items-center gap-2 text-sm text-charcoal-600">
+                    <CheckCircle className="h-4 w-4 text-sage-400 shrink-0"/>
                     {ins}
-                  </li>
-                ))}
+                  </li>))}
               </ul>
-            </div>
-          )}
+            </div>)}
         </div>
 
         {/* Stats block — private analytics, only visible to the authenticated listing owner */}
-        {isOwner && isClaimed && (
-          <div className='mt-8 mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4'>
+        {isOwner && isClaimed && (<div className='mt-8 mb-6 rounded-xl border border-blue-200 bg-blue-50 p-4'>
             <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
             <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
             <p className='text-sm text-blue-700'>people viewed your profile this month</p>
 
-          </div>
-        )}
+          </div>)}
 
         {/* Inquiry form for verified (featured) tier */}
-        {isVerified && (
-          <div className="mt-8 rounded-2xl bg-rose-50 border border-rose-200 p-6">
+        {(<div className="mt-8 rounded-2xl bg-rose-50 border border-rose-200 p-6">
             <div className="flex items-center gap-2 mb-3">
-              <MessageSquare className="h-5 w-5 text-rose-500" />
+              <MessageSquare className="h-5 w-5 text-rose-500"/>
               <h3 className="font-serif text-base font-semibold text-charcoal-700">
                 Contact {listing.name.split(' ')[0]}
               </h3>
@@ -236,32 +160,18 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
             <p className="text-sm text-charcoal-500 mb-4">
               Reach out directly to schedule a consultation.
             </p>
-            {listing.website ? (
-              <a
-                href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-rose inline-flex text-sm py-2.5"
-              >
+            {listing.website ? (<a href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="btn-rose inline-flex text-sm py-2.5">
                 Visit Website to Book
-              </a>
-            ) : listing.email ? (
-              <a
-                href={`mailto:${listing.email}`}
-                className="btn-rose inline-flex text-sm py-2.5"
-              >
+              </a>) : listing.email ? (<a href={`mailto:${listing.email}`} className="btn-rose inline-flex text-sm py-2.5">
                 Send Email
-              </a>
-            ) : null}
-          </div>
-        )}
+              </a>) : null}
+          </div>)}
 
         {/* Contact CTA for pro (non-verified) */}
-        {isPro && !isVerified && (
-          <div className="mt-8 rounded-2xl bg-ivory-100 border border-ivory-300 p-6">
+        {!isVerified && (<div className="mt-8 rounded-2xl bg-ivory-100 border border-ivory-300 p-6">
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100 shrink-0">
-                <Heart className="h-5 w-5 text-rose-400" />
+                <Heart className="h-5 w-5 text-rose-400"/>
               </div>
               <div className="flex-1">
                 <h3 className="font-serif text-base font-semibold text-charcoal-700">
@@ -270,34 +180,18 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                 <p className="mt-1 text-sm text-charcoal-500">
                   Visit {listing.name.split(' ')[0]}&apos;s website to book an appointment or get in touch directly.
                 </p>
-                {listing.website && (
-                  <a
-                    href={listing.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-rose mt-3 inline-flex text-sm py-2.5"
-                  >
+                {listing.website && (<a href={listing.website} target="_blank" rel="noopener noreferrer" className="btn-rose mt-3 inline-flex text-sm py-2.5">
                     Visit Website
-                  </a>
-                )}
+                  </a>)}
               </div>
             </div>
-          </div>
-        )}
+          </div>)}
 
         {/* Patient lead capture — unclaimed or free listings can't be contacted directly */}
-        {(!listing.claimed || listing.plan_tier === 'free') && (
-          <PatientLeadForm
-            listingId={String(listing.id)}
-            providerName={listing.name}
-            city={listing.city}
-            state={listing.state}
-          />
-        )}
+        {(!listing.claimed || listing.plan_tier === 'free') && (<PatientLeadForm listingId={String(listing.id)} providerName={listing.name} city={listing.city} state={listing.state}/>)}
 
         {/* Unclaimed CTA */}
-        {!listing.claimed && (
-          <div className="mt-6 rounded-xl border border-dashed border-charcoal-200 bg-ivory-50 p-4">
+        {!listing.claimed && (<div className="mt-6 rounded-xl border border-dashed border-charcoal-200 bg-ivory-50 p-4">
             <p className="text-sm text-charcoal-400">
               Is this your practice?{' '}
               <Link href={`/claim/${listing.id}`} className="text-sage-500 font-semibold hover:text-sage-600">
@@ -305,9 +199,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
               </Link>{' '}
               to add your photo, bio, and contact info for free.
             </p>
-          </div>
-        )}
+          </div>)}
       </div>
-    </div>
-  )
+    </div>);
 }

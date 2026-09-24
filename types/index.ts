@@ -173,17 +173,3 @@ export const US_STATES: { abbr: string; name: string }[] = [
   { abbr: 'DC', name: 'District of Columbia' },
 ]
 
-export const PLAN_PRICES = {
-  pro: {
-    amount: 7900,
-    label: '$79/year',
-    display: '$79',
-    period: 'year',
-  },
-  verified: {
-    amount: 12900,
-    label: '$129/year',
-    display: '$129',
-    period: 'year',
-  },
-} as const

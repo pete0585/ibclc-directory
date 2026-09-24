@@ -68,7 +68,6 @@ export async function getListings({
   if (telehealth === true) query = query.eq('telehealth', true)
   if (acceptingNew === true) query = query.eq('accepting_new_clients', true)
   if (search) query = query.textSearch('search_vector', search, { type: 'websearch' })
-  if (tier) query = query.eq('plan_tier', tier)
 
   const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1
   const safeSize = Number.isFinite(pageSize) ? Math.max(1, Math.min(100, Math.floor(pageSize))) : 20
