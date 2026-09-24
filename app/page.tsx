@@ -4,6 +4,7 @@ import { Heart, ShieldCheck, Search, Star, ArrowRight, Video, Home, CheckCircle 
 import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getActiveCities, getTotalListingCount } from '@/lib/data'
+import NewsletterSignup from '@/components/NewsletterSignup'
 
 export const dynamic = "force-dynamic"
 
