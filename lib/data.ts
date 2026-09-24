@@ -1,15 +1,30 @@
-import { createClient, createServiceClient } from './supabase/server'
+import 'server-only'
+import { createServiceClient } from './supabase/server'
 import type { Listing, City } from '@/types'
+
+// Only public profile fields may leave this server module. Never serialize billing,
+// outreach, claim-token or administrative fields from the service-role connection.
+const PUBLIC_LISTING_FIELDS = 'id,slug,name,credentials,bio,photo_url,phone,email,website,city,state,zip,lat,lng,accepting_new_clients,telehealth,visit_types,insurance_accepted,specialties,languages,plan_tier,credential_verified,claimed,claimed_at,status,created_at,updated_at' as const
+function assertRead(error: { code?: string } | null) {
+  if (error) {
+    console.error('directory_read_failed', { code: error.code })
+    throw new Error('Directory data could not be loaded. Please retry.')
+  }
+}
+function publicListing(row: Record<string, unknown>): Listing {
+  return Object.fromEntries(PUBLIC_LISTING_FIELDS.split(',').map(key => [key, row[key]])) as unknown as Listing
+}
 
 export async function getListingBySlug(slug: string): Promise<Listing | null> {
   const supabase = await createServiceClient()
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('ibclc_listings')
-    .select('*')
+    .select(PUBLIC_LISTING_FIELDS)
     .eq('slug', slug)
-    .neq('status', 'suspended')
-    .single()
-  return data
+    .eq('status', 'active')
+    .maybeSingle()
+  assertRead(error)
+  return data ? publicListing(data) : null
 }
 
 export async function getListings({
@@ -37,10 +52,10 @@ export async function getListings({
   page?: number
   pageSize?: number
 }): Promise<{ listings: Listing[]; total: number }> {
-  const supabase = await createClient()
+  const supabase = await createServiceClient()
   let query = supabase
     .from('ibclc_listings')
-    .select('*', { count: 'exact' })
+    .select(PUBLIC_LISTING_FIELDS, { count: 'exact' })
     .eq('status', 'active')
     .order('plan_tier_rank', { ascending: true })
     .order('name', { ascending: true })
@@ -55,12 +70,15 @@ export async function getListings({
   if (search) query = query.textSearch('search_vector', search, { type: 'websearch' })
   if (tier) query = query.eq('plan_tier', tier)
 
-  const from = (page - 1) * pageSize
-  const to = from + pageSize - 1
+  const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1
+  const safeSize = Number.isFinite(pageSize) ? Math.max(1, Math.min(100, Math.floor(pageSize))) : 20
+  const from = (safePage - 1) * safeSize
+  const to = from + safeSize - 1
   query = query.range(from, to)
 
-  const { data, count } = await query
-  return { listings: data ?? [], total: count ?? 0 }
+  const { data, count, error } = await query
+  assertRead(error)
+  return { listings: (data ?? []).map(publicListing), total: count ?? 0 }
 }
 
 export async function getListingsNear({
@@ -76,93 +94,100 @@ export async function getListingsNear({
   page?: number
   pageSize?: number
 }): Promise<{ listings: Listing[]; total: number }> {
-  const supabase = await createClient()
+  const supabase = await createServiceClient()
   const { data, error } = await supabase.rpc('find_ibclc_near', {
     search_lat: lat,
     search_lng: lng,
     radius_miles: radius,
   })
-  if (error || !data) return { listings: [], total: 0 }
-  const all = data as Listing[]
+  assertRead(error)
+  const all = ((data ?? []) as Record<string, unknown>[]).filter(row => row.status === 'active').map(publicListing)
   const from = (page - 1) * pageSize
   return { listings: all.slice(from, from + pageSize), total: all.length }
 }
 
 export async function getFeaturedListings(limit = 6): Promise<Listing[]> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_listings')
-    .select('*')
+    .select(PUBLIC_LISTING_FIELDS)
     .eq('status', 'active')
-    .in('plan_tier', ['verified', 'pro'])
-    .order('plan_tier_rank', { ascending: true })
+    .order('name', { ascending: true })
     .limit(limit)
-  return data ?? []
+  assertRead(error)
+  return (data ?? []).map(publicListing)
 }
 
 export async function getCityPage(citySlug: string): Promise<City | null> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_cities')
     .select('*')
     .eq('slug', citySlug)
     .eq('active', true)
-    .single()
+    .maybeSingle()
+  assertRead(error)
   return data
 }
 
 export async function getCitiesByState(stateAbbr: string): Promise<City[]> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_cities')
     .select('*')
     .ilike('state', stateAbbr)
     .eq('active', true)
     .gt('listing_count', 0)
     .order('listing_count', { ascending: false })
+  assertRead(error)
   return data ?? []
 }
 
 export async function getListingsByCity(city: string, state: string, limit = 20): Promise<Listing[]> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_listings')
-    .select('*')
+    .select(PUBLIC_LISTING_FIELDS)
     .ilike('city', city)
     .ilike('state', state)
     .eq('status', 'active')
     .order('plan_tier_rank', { ascending: true })
     .limit(limit)
-  return data ?? []
+  assertRead(error)
+  return (data ?? []).map(publicListing)
 }
 
 export async function getActiveCities(limit = 150): Promise<City[]> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_cities')
     .select('*')
     .eq('active', true)
     .gt('listing_count', 0)
     .order('listing_count', { ascending: false })
     .limit(limit)
+  assertRead(error)
   return data ?? []
 }
 
 export async function getTotalListingCount(): Promise<number> {
-  const supabase = await createClient()
-  const { count } = await supabase
+  const supabase = await createServiceClient()
+  const { count, error } = await supabase
     .from('ibclc_listings')
-    .select('*', { count: 'exact', head: true })
+    .select('id', { count: 'exact', head: true })
     .eq('status', 'active')
-  return count ?? 0
+  assertRead(error)
+  if (count === null) throw new Error('Directory count was not returned.')
+  return count
 }
 
 export async function getActiveStates(): Promise<string[]> {
-  const supabase = await createClient()
-  const { data } = await supabase
+  const supabase = await createServiceClient()
+  const { data, error } = await supabase
     .from('ibclc_listings')
     .select('state')
     .eq('status', 'active')
+  assertRead(error)
   const states = Array.from(new Set((data ?? []).map((r: { state: string }) => r.state))).sort()
   return states
 }

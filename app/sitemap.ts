@@ -2,7 +2,7 @@ import {articles as editorialArticles} from '@/lib/editorial-blog'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { MetadataRoute } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/server'
 import { US_STATES } from '@/types'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.lactationconsultantdirectory.com'
@@ -46,7 +46,7 @@ const GUIDE_SLUGS = [
 ]
 
 async function originalSitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = await createClient()
+  const supabase = await createServiceClient()
 
   const [listingsRes, citiesRes] = await Promise.all([
     supabase
@@ -62,6 +62,7 @@ async function originalSitemap(): Promise<MetadataRoute.Sitemap> {
       .gt('listing_count', 0),
   ])
 
+  if (listingsRes.error || citiesRes.error) throw new Error('Directory sitemap data could not be loaded.')
   const listings = listingsRes.data ?? []
   const cities = citiesRes.data ?? []
 

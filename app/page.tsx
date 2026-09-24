@@ -40,8 +40,8 @@ const SPECIALTY_HIGHLIGHTS = [
 
 export default async function HomePage() {
   const [featured, listingCount] = await Promise.all([
-    getFeaturedListings(6).catch(() => []),
-    getTotalListingCount().catch(() => 0),
+    getFeaturedListings(6),
+    getTotalListingCount(),
   ])
 
   return (
