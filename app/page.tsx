@@ -243,9 +243,7 @@ export default async function HomePage() {
             Are you a lactation consultant in private practice?
           </h2>
           <p className="text-sage-50 text-lg mb-8 leading-relaxed">
-            Get a free listing on the only nationwide directory built for lactation consultants.
-            Pro listings start at $79/year — one new client pays for it twice over.
-          </p>
+            Get a free listing on the only nationwide directory built for lactation consultants.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/submit"
@@ -253,12 +251,7 @@ export default async function HomePage() {
             >
               Get Listed Free
             </Link>
-            <Link
-              href="/submit#pricing"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/50 px-8 py-4 text-base font-semibold text-white hover:border-white transition-colors"
-            >
-              View Pricing
-            </Link>
+            
           </div>
         </div>
       </section>
