@@ -97,7 +97,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                 {listing.city}, {stateAbbreviationToName(listing.state)}
                 {listing.zip && ` ${listing.zip}`}
               </span>
-              {isPro && listing.phone && (
+              {listing.phone && (
                 <a
                   href={`tel:${listing.phone}`}
                   className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
@@ -106,7 +106,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                   {formatPhone(listing.phone)}
                 </a>
               )}
-              {isPro && listing.website && (
+              {listing.website && (
                 <a
                   href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
                   target="_blank"
@@ -117,7 +117,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                   Website
                 </a>
               )}
-              {isPro && listing.email && (
+              {listing.email && (
                 <a
                   href={`mailto:${listing.email}`}
                   className="flex items-center gap-1.5 hover:text-sage-500 transition-colors"
@@ -141,24 +141,6 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
               className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'
             >
               Is this you? Claim your free profile →
-            </a>
-          </div>
-        )}
-
-        {/* Gate: contact info hidden for claimed-free listings */}
-        {isClaimed && !isPro && (
-          <div className='mt-6 rounded-lg border border-sage-200 bg-sage-50 p-4 text-center'>
-            <p className='text-sm font-medium text-charcoal-700 mb-1'>
-              Contact info is hidden on free listings
-            </p>
-            <p className='text-sm text-charcoal-500 mb-2'>
-              Upgrade to Pro to show your phone, website, and email to every parent who finds you.
-            </p>
-            <a
-              href={`/claim/${listing.id}?verified=true`}
-              className='mt-1 inline-block text-sm font-semibold text-sage-600 hover:text-sage-700 underline'
-            >
-              Upgrade to Pro — $29/month →
             </a>
           </div>
         )}
@@ -238,14 +220,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
             <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
             <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
             <p className='text-sm text-blue-700'>people viewed your profile this month</p>
-            {listing.plan_tier === 'free' && (
-              <p className='mt-2 text-xs text-blue-600'>
-                0 could contact you.{' '}
-                <a href={`/claim/${listing.id}?upgrade=true`} className='underline font-medium'>
-                  Upgrade to be reachable →
-                </a>
-              </p>
-            )}
+
           </div>
         )}
 
