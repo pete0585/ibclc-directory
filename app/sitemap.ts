@@ -57,7 +57,7 @@ async function originalSitemap(): Promise<MetadataRoute.Sitemap> {
       .order('updated_at', { ascending: false }),
     supabase
       .from('ibclc_cities')
-      .select('slug, state, updated_at')
+      .select('slug, state')
       .eq('active', true)
       .gt('listing_count', 0),
   ])
@@ -83,7 +83,6 @@ async function originalSitemap(): Promise<MetadataRoute.Sitemap> {
 
   const cityPages: MetadataRoute.Sitemap = cities.map((city) => ({
     url: `${siteUrl}/find/${city.state.toLowerCase()}/${city.slug}`,
-    lastModified: city.updated_at ? new Date(city.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
