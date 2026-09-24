@@ -2,13 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useSearchParams } from 'next/navigation'
-import { CheckCircle, Loader2, ShieldCheck, Star } from 'lucide-react'
-import Link from 'next/link'
-import { createClient } from '@supabase/supabase-js'
+import { CheckCircle, Loader2 } from 'lucide-react'
 
-type Step = 'email' | 'verifying' | 'verified' | 'upgrade' | 'error'
-type Billing = 'monthly' | 'annual'
-
+type Step = 'email' | 'verifying' | 'verified' | 'error'
 export default function ClaimPage() {
   const params = useParams<{ id: string }>()
   const searchParams = useSearchParams()
@@ -17,31 +13,15 @@ export default function ClaimPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [listingName, setListingName] = useState<string>('')
-  const [monthlyViews, setMonthlyViews] = useState(0)
-  const [billing, setBilling] = useState<Billing>('monthly')
+  const [phone, setPhone] = useState('')
+  const [phoneSaved, setPhoneSaved] = useState(false)
 
   useEffect(() => {
     if (searchParams.get('verified') === 'true' || searchParams.get('upgrade') === 'true') {
-      setStep('upgrade')
+      setStep('verified')
     }
   }, [searchParams])
 
-  useEffect(() => {
-    if (step === 'upgrade' && params.id) {
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      )
-      const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
-      supabase
-        .from('listing_views')
-        .select('*', { count: 'exact', head: true })
-        .eq('directory_slug', 'ibclc')
-        .eq('listing_id', params.id)
-        .gte('viewed_at', monthStart)
-        .then(({ count }) => setMonthlyViews(count ?? 0))
-    }
-  }, [step, params.id])
 
   async function sendClaimEmail(e: React.FormEvent) {
     e.preventDefault()
@@ -65,27 +45,7 @@ export default function ClaimPage() {
     }
   }
 
-  async function upgradeToProOrVerified(tier: 'pro' | 'verified') {
-    setLoading(true)
-    try {
-      const res = await fetch('/api/upgrade', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listingId: params.id, tier, billing, ...(searchParams.get('founding') === 'true' ? { couponId: 'R6vSpeEL' } : {}) }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to create checkout session')
-      if (data.url) {
-        window.location.href = data.url
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to start checkout. Please try again.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  if (step === 'verifying') {
+if (step === 'verifying') {
     return (
       <div className="mx-auto max-w-lg px-4 py-20 text-center">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-100 mx-auto mb-5">
@@ -112,9 +72,9 @@ export default function ClaimPage() {
     )
   }
 
-  if (step === 'upgrade') {
+  if (step === 'verified') {
     return (
-      <div className="mx-auto max-w-2xl px-4 py-16">
+      <div className="mx-auto max-w-lg px-4 py-20">
         <div className="text-center mb-8">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sage-100 mx-auto mb-5">
             <CheckCircle className="h-8 w-8 text-sage-500" />
@@ -122,117 +82,68 @@ export default function ClaimPage() {
           <h1 className="font-serif text-2xl font-bold text-charcoal-800 mb-2">
             Listing claimed!
           </h1>
+          <p className="text-charcoal-500">
+            Your profile is now active. Your phone, website, and email are visible to everyone who finds you.
+          </p>
         </div>
 
-        <div className='text-center mb-6'>
-          <div className='text-5xl font-bold text-gray-900'>{monthlyViews}</div>
-          <div className='text-gray-500 mt-1'>people viewed your profile this month</div>
-          <div className='mt-3 text-red-600 font-semibold'>
-            0 could contact you — your phone and website are hidden
-          </div>
-        </div>
-
-        <div className='space-y-3 mb-8 text-left'>
-          {[
-            ['Your phone number visible to searchers', 'They can call you directly from your listing'],
-            ['Your website linked', 'Drive traffic to your practice site'],
-            ['Your full bio displayed', 'Build trust before they reach out'],
-            ['Verified badge', 'Stand out from unclaimed profiles'],
-          ].map(([title, sub]) => (
-            <div key={title} className='flex items-start gap-3'>
-              <span className='text-green-500 text-lg leading-tight'>✓</span>
-              <div>
-                <div className='font-medium text-gray-900'>{title}</div>
-                <div className='text-sm text-gray-500'>{sub}</div>
-              </div>
+        <div className="card p-6 mb-6">
+          {phoneSaved ? (
+            <div className="text-center py-2">
+              <CheckCircle className="h-8 w-8 text-sage-500 mx-auto mb-2" />
+              <p className="text-charcoal-700 font-medium">Phone number saved!</p>
             </div>
-          ))}
-        </div>
-
-        {/* Billing toggle */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex rounded-full border border-charcoal-200 bg-ivory-50 p-1 text-sm">
-            <button
-              onClick={() => setBilling('monthly')}
-              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
-                billing === 'monthly'
-                  ? 'bg-charcoal-800 text-white'
-                  : 'text-charcoal-500 hover:text-charcoal-700'
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBilling('annual')}
-              className={`px-4 py-1.5 rounded-full font-medium transition-colors ${
-                billing === 'annual'
-                  ? 'bg-charcoal-800 text-white'
-                  : 'text-charcoal-500 hover:text-charcoal-700'
-              }`}
-            >
-              Annual <span className="text-xs font-normal opacity-75">save 17%</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="card p-6 border border-sage-200">
-            <div className="flex items-center gap-2 mb-3">
-              <Star className="h-5 w-5 text-sage-500" />
-              <span className="font-semibold text-charcoal-700">Pro Listing</span>
-            </div>
-            {billing === 'monthly' ? (
-              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$29<span className="text-base font-normal text-charcoal-400">/month</span></p>
-            ) : (
-              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$290<span className="text-base font-normal text-charcoal-400">/year</span></p>
-            )}
-            <p className="text-sm text-charcoal-500 mb-4">Phone, website, and email visible. Photo, bio, priority placement.</p>
-            <button
-              onClick={() => upgradeToProOrVerified('pro')}
-              disabled={loading}
-              className="btn-primary w-full"
-            >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Upgrade to Pro'}
-            </button>
-          </div>
-
-          <div className="card p-6 border-2 border-rose-200 bg-rose-50/50">
-            <div className="flex items-center gap-2 mb-3">
-              <ShieldCheck className="h-5 w-5 text-rose-400" />
-              <span className="font-semibold text-charcoal-700">Verified</span>
-            </div>
-            {billing === 'monthly' ? (
-              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$49<span className="text-base font-normal text-charcoal-400">/month</span></p>
-            ) : (
-              <p className="font-serif text-3xl font-bold text-charcoal-800 mb-1">$490<span className="text-base font-normal text-charcoal-400">/year</span></p>
-            )}
-            <p className="text-sm text-charcoal-500 mb-4">Everything in Pro + credential verification, top placement.</p>
-            <button
-              onClick={() => upgradeToProOrVerified('verified')}
-              disabled={loading}
-              className="btn-rose w-full"
-            >
-              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Verified'}
-            </button>
-          </div>
+          ) : (
+            <>
+              <h2 className="font-serif text-lg font-semibold text-charcoal-700 mb-3">
+                Add your phone number
+              </h2>
+              <p className="text-sm text-charcoal-500 mb-4">
+                Help patients reach you directly from your listing.
+              </p>
+              <form onSubmit={savePhone} className="space-y-3">
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="input"
+                  placeholder="(555) 555-5555"
+                  disabled={loading}
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !phone}
+                  className="btn-primary w-full"
+                >
+                  {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Save Phone Number'}
+                </button>
+              </form>
+              <button
+                onClick={() => setPhoneSaved(true)}
+                className="mt-2 w-full text-sm text-charcoal-400 hover:text-charcoal-600"
+              >
+                Skip for now
+              </button>
+            </>
+          )}
         </div>
 
         {error && (
-          <div className="mt-4 rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-600 text-center">
+          <div className="mb-4 rounded-xl bg-red-50 border border-red-200 p-3 text-sm text-red-600 text-center">
             {error}
           </div>
         )}
 
-        <div className="mt-6 text-center">
-          <Link href="/" className="text-sm text-charcoal-400 hover:text-charcoal-600">
-            Skip for now — keep my free listing
-          </Link>
+        <div className="text-center">
+          <a href="/" className="text-sm text-charcoal-400 hover:text-charcoal-600">
+            Return to directory
+          </a>
         </div>
       </div>
     )
   }
 
-  return (
+    return (
     <div className="mx-auto max-w-md px-4 py-20">
       <h1 className="font-serif text-3xl font-bold text-charcoal-800 mb-3">
         Claim Your Listing
