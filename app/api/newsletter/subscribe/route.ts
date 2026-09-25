@@ -7,7 +7,7 @@ const NICHE = 'ibclc' as const
 const DIRECTORY_SLUG = 'ibclc-directory' as const
 const NEWSLETTER_NAME = 'The Feeding Footnote' as const
 const CONFIRM_URL_BASE = 'https://www.lactationconsultantdirectory.com/newsletter/confirm'
-const DASHBOARD_URL = 'https://aidam.thestrategicveteran.com'
+const DASHBOARD_URL = 'https://aidam.studiozerohq.com'
 
 export async function POST(req: NextRequest) {
   let email: string, first_name: string | undefined
