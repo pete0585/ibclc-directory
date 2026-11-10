@@ -80,10 +80,10 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
           </div>
         </div>
 
-        {/* Gate: contact info for unclaimed listings */}
+        {/* Claim invitation; available contact links remain visible above. */}
         {!isClaimed && (<div className='mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
             <p className='text-sm text-gray-500'>
-              Phone, website, and contact info are only visible after this provider claims their listing.
+              This profile has not been claimed by the provider.
             </p>
             <a href={`/claim/${listing.id}`} className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'>
               Is this you? Claim your free profile →
@@ -180,7 +180,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                 <p className="mt-1 text-sm text-charcoal-500">
                   Visit {listing.name.split(' ')[0]}&apos;s website to book an appointment or get in touch directly.
                 </p>
-                {listing.website && (<a data-directory-action="website_click" href={listing.website} target="_blank" rel="noopener noreferrer" className="btn-rose mt-3 inline-flex text-sm py-2.5">
+                {listing.website && (<a data-directory-action="website_click" href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="btn-rose mt-3 inline-flex text-sm py-2.5">
                     Visit Website
                   </a>)}
               </div>
@@ -203,3 +203,4 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
       </div>
     </div>);
 }
+
