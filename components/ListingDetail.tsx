@@ -180,7 +180,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                 <p className="mt-1 text-sm text-charcoal-500">
                   Visit {listing.name.split(' ')[0]}&apos;s website to book an appointment or get in touch directly.
                 </p>
-                {listing.website && (<a href={listing.website} target="_blank" rel="noopener noreferrer" className="btn-rose mt-3 inline-flex text-sm py-2.5">
+                {listing.website && (<a data-directory-action="website_click" href={listing.website} target="_blank" rel="noopener noreferrer" className="btn-rose mt-3 inline-flex text-sm py-2.5">
                     Visit Website
                   </a>)}
               </div>
