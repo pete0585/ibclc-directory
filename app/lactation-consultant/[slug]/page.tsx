@@ -120,7 +120,7 @@ export default async function ListingPage({ params }: Props) {
           <p className="mb-3 text-sm text-yellow-700">
             Claim your profile to appear when parents search for a lactation consultant in {listing.city}.
           </p>
-          <a href={`/claim/${listing.slug}`} className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+          <a href={`/claim/${listing.id}`} className="inline-block rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700">
             Claim your profile →
           </a>
         </div>)}
