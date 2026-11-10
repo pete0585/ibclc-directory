@@ -68,7 +68,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
                   <Phone className="h-4 w-4 text-sage-400"/>
                   {formatPhone(listing.phone)}
                 </a>)}
-              {listing.website && (<a href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-sage-500 transition-colors">
+              {listing.website && (<a data-directory-action="website_click" href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-sage-500 transition-colors">
                   <Globe className="h-4 w-4 text-sage-400"/>
                   Website
                 </a>)}
@@ -160,7 +160,7 @@ export default function ListingDetail({ listing, monthlyViews = 0, isOwner = fal
             <p className="text-sm text-charcoal-500 mb-4">
               Reach out directly to schedule a consultation.
             </p>
-            {listing.website ? (<a href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="btn-rose inline-flex text-sm py-2.5">
+            {listing.website ? (<a data-directory-action="website_click" href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="btn-rose inline-flex text-sm py-2.5">
                 Visit Website to Book
               </a>) : listing.email ? (<a href={`mailto:${listing.email}`} className="btn-rose inline-flex text-sm py-2.5">
                 Send Email
