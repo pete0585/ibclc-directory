@@ -62,11 +62,9 @@ export default async function HomePage() {
             Browse verified IBCLCs by specialty, location, and availability — and connect directly. Free, always.
           </p>
           <p className="text-sm text-gray-500 mt-4">
-            Are you a IBCLC?{' '}
+            Are you an IBCLC?{' '}
             <a
-              href="https://studiozerohq.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/submit"
               className="underline hover:opacity-80"
             >
               List your practice free →
